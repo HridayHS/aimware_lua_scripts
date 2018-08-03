@@ -14,6 +14,7 @@ function Sounds( Event, Entity )
      local INDEX_Attacker = client.GetPlayerIndexByUserID( INT_ATTACKER );
 
      if ( INDEX_Attacker == ME and INDEX_Victim ~= ME ) then
+             gui.SetValue("msc_hitmarker_volume", 0 )
              client.Command("play buttons\\arena_switch_press_02.wav", true);
      end
 
