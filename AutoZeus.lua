@@ -17,7 +17,7 @@ local function on_item_equip(Event)
 			SET("rbot_enable", 1);
 			SET("rbot_fov", 30);
 			SET("rbot_silentaim", 1); -- Silent Aim: On
-			SET("rbot_rifle_hitchance", 80");
+			SET("rbot_rifle_hitchance", 80); -- Zeus hitchance
 		else
 			SET("rbot_active", 0); -- Master Switch: Off
 		end
