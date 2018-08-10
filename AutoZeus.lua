@@ -13,12 +13,13 @@ local function on_item_equip(Event)
 	-- checks if the local players index is equal to the player that called the event
 	if (local_player == userid_to_index(userid)) then
 		if (item == "taser") then
-			SET("rbot_active", 1);
+			SET("rbot_active", 1); -- Master Switch: On
 			SET("rbot_enable", 1);
 			SET("rbot_fov", 30);
-			SET("rbot_silentaim", 2);
+			SET("rbot_silentaim", 1); -- Silent Aim: On
+			SET("rbot_rifle_hitchance", 80");
 		else
-			SET("rbot_active", 0);
+			SET("rbot_active", 0); -- Master Switch: Off
 		end
 	end
 end
