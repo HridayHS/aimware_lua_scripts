@@ -14,7 +14,7 @@ local function ZoomFOV( Event )
 			SET("vis_view_fov", 0);
 		end
 
-	else if ( Event:GetName() ~= 'weapon_zoom' or Event:GetName() ~= 'weapon_zoom_rifle' ) then
+	elseif ( Event:GetName() ~= 'weapon_zoom' or Event:GetName() ~= 'weapon_zoom_rifle' ) then
 
 		if ( ME == PlayerIndex( INT_UID ) ) then
 			SET("vis_view_fov", 110);
