@@ -14,14 +14,20 @@ function Sounds( Event, Entity )
      local INDEX_Attacker = client.GetPlayerIndexByUserID( INT_ATTACKER );
 
      if ( INDEX_Attacker == ME and INDEX_Victim ~= ME ) then
-             gui.SetValue("msc_hitmarker_volume", 0 )
-             client.Command("play buttons\\arena_switch_press_02.wav", true);
+            client.Command("play buttons\\arena_switch_press_02.wav", true);
      end
-
+	 
  end
 
 end
 
-client.AllowListener( 'player_hurt' );
+function AWHitmarkerVolumeCheck()
+	
+	if ( gui.GetValue("msc_hitmarker_enable") == true ) then
+		gui.SetValue("msc_hitmarker_volume", 0);
+	end
+end
 
+client.AllowListener( 'player_hurt' );
+callbacks.Register( 'Draw', 'AWHitmarkerVolumeCheck', AWHitmarkerVolumeCheck );
 callbacks.Register( 'FireGameEvent', 'Hitsound', Sounds );
