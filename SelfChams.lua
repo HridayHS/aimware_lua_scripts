@@ -5,15 +5,19 @@ local UserChamsValue = GET("esp_self_chams");
 
 local function SelfChams()
 
-	local LocalPlayer = entities.GetLocalPlayer();
-	local isScoped = LocalPlayer:GetProp( 'm_bIsScoped' );
+	if entities.GetLocalPlayer() ~= nil then
 	
-	if isScoped == 1 then
-		SET("esp_self_chams", 0);
-	else
-		SET("esp_self_chams", UserChamsValue);
+		local LocalPlayer = entities.GetLocalPlayer();
+		local isScoped = LocalPlayer:GetProp( 'm_bIsScoped' );
+	
+		if isScoped == 1 then
+			SET("esp_self_chams", 0);
+		else
+			SET("esp_self_chams", UserChamsValue);
+		end
+
 	end
-	
+
 end
 
 callbacks.Register( "Draw", "SelfChams", SelfChams);
