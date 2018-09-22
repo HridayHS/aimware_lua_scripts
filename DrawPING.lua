@@ -1,39 +1,49 @@
-function PING()
+function DrawPING()
 
 	local w, h = draw.GetScreenSize();
 
 	if entities.GetPlayerResources() ~= nil then
 	
-	local RPING = entities.GetPlayerResources():GetPropInt( "m_iPing", client.GetLocalPlayerIndex() )
-	
-	if ( RPING <= 50 ) then
+		PING = entities.GetPlayerResources():GetPropInt( "m_iPing", client.GetLocalPlayerIndex() );
+
+		DrawPingColor();
+		draw.Text( 30, h - 440, PING );
+
+	else
+
+		draw.Color( 255, 255, 255, 255 );
+		draw.Text( 30, h - 440, "0" );
+
+	end
+
+end
+
+function DrawPingColor()
+
+	if ( PING <= 50 ) then
 		draw.Color(0, 255, 0, 255); -- Green
-	elseif ( RPING <= 100 ) then
+	elseif ( PING <= 100 ) then
 		draw.Color( 50, 255, 0, 255 );
-	elseif ( RPING <= 200 ) then
+	elseif ( PING <= 200 ) then
 		draw.Color( 100, 255, 0, 255 );
-	elseif ( RPING <= 300 ) then
+	elseif ( PING <= 300 ) then
 		draw.Color( 150, 255, 0, 255 );
-	elseif ( RPING <= 400 ) then
+	elseif ( PING <= 400 ) then
 		draw.Color( 200, 255, 0, 255 );
-	elseif ( RPING <= 500 ) then
+	elseif ( PING <= 500 ) then
 		draw.Color( 255, 255, 0, 255 ); -- Orange
-	elseif ( RPING <= 600 ) then
+	elseif ( PING <= 600 ) then
 		draw.Color( 255, 200, 0, 255 ); 
-	elseif ( RPING <= 700 ) then
+	elseif ( PING <= 700 ) then
 		draw.Color( 255, 150, 0, 255 );
-	elseif ( RPING <= 800 ) then
+	elseif ( PING <= 800 ) then
 		draw.Color( 255, 100, 0, 255 );
-	elseif ( RPING <= 900 ) then
+	elseif ( PING <= 900 ) then
 		draw.Color( 255, 50, 0, 255 );
 	else
 		draw.Color( 255, 0, 0, 255 ); -- Red
 	end
 	
-	--draw.Color( 255, 255, 255, 255 );
-	draw.Text( 30, h - 440, RPING )
-
-	end
 end
 
-callbacks.Register( "Draw", "PING", PING )
+callbacks.Register( "Draw", "DrawPING", DrawPING )
