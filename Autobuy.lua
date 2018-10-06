@@ -5,7 +5,7 @@ local Autobuy_Groupbox = gui.Groupbox( msc_ref_part_3, "Autobuy", 0, 890, 213, 1
 local Autobuy_Enable = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_enable", "Enable", 0 );
 
 local Autobuy_Weapon_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Weapons", 0, 30, 182, 120 );
-local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_primaryweapon", "Primary", "Off", "Auto", "Scout", "AWP" );
+local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_primaryweapon", "Primary", "Off", "Auto", "Scout", "AWP", "Rifle" );
 local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_secondaryweapon", "Secondary", "Off", "Dualies", "Deagle/Revolver" );
 
 local Autobuy_Equipment_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Equipments", 0, 170, 182, 144 );
@@ -42,6 +42,9 @@ local function Autobuy( Event )
 				end
 				if PrimaryWeapon == 3 then
 					client.Command( "buy awp", true );
+				end
+				if PrimaryWeapon == 4 then
+					client.Command( "buy ak47; buy m4a1; buy m4a1_silencer", true );
 				end
 
 				-- Secondary Weapon
