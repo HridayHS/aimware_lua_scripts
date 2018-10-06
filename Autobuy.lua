@@ -9,7 +9,7 @@ local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobu
 local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_secondaryweapon", "Secondary", "Off", "Dualies", "Deagle/Revolver" );
 
 local Autobuy_Equipment_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Equipments", 0, 170, 182, 144 );
-local Autobuy_Kevlar = gui.Combobox( Autobuy_Equipment_Groupbox, "lua_autobuy_kevlar", "Kevlar", "Off", "On", "Kevlar + Helmet" );
+local Autobuy_Kevlar = gui.Combobox( Autobuy_Equipment_Groupbox, "lua_autobuy_armor", "Armor", "Off", "Kevlar", "Kevlar + Helmet" );
 local Autobuy_Defuser = gui.Checkbox( Autobuy_Equipment_Groupbox, "lua_autobuy_defuser", "Defuser", 0 );
 local Autobuy_Grenades = gui.Checkbox( Autobuy_Equipment_Groupbox, "lua_autobuy_grenades", "Grenades", 0 );
 local Autobuy_Taser = gui.Checkbox( Autobuy_Equipment_Groupbox, "lua_autobuy_taser", "Taser", 0 );
