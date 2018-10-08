@@ -1,27 +1,37 @@
-local SET = gui.SetValue;
+local SetValue = gui.SetValue;
 
-function FakelagOnKnife( Event )
+local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
 
-	if (Event:GetName() ~= 'item_equip') then
-		return;
-	end
+local FAKELAG_ON_KNIFE = gui.Checkbox( MSC_PART_2_REF, "lua_fakelagonknife", "Disable Fakelag On Knife", 0 );
 
-	local ME = client.GetLocalPlayerIndex();
-	local PlayerIndex = client.GetPlayerIndexByUserID;
-	local INT_UID = Event:GetInt( 'userid' );
-	local WepType = Event:GetInt( 'weptype' );
+local function FakelagOnKnife( Event )
 
-	if ( ME == PlayerIndex( INT_UID ) ) then
+	if FAKELAG_ON_KNIFE:GetValue() then
 
-		if ( WepType == 0 ) then
-			SET("msc_fakelag_enable", false);
-		else
-			SET("msc_fakelag_enable", true);
+		if ( Event:GetName() ~= "item_equip" ) then
+			return;
 		end
-		
+
+		local ME = client.GetLocalPlayerIndex();
+		local INT_UID = Event:GetInt( "userid" );
+		local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
+		local WepType = Event:GetInt( "weptype" );
+		local Item = Event:GetString( "item" );
+	
+		if ( ME == PlayerIndex ) then
+
+			if ( WepType == 0 ) then
+				SetValue( "msc_fakelag_enable", false );
+			else
+				SetValue( "msc_fakelag_enable", true );
+			end
+
+		end
+
 	end
+
 end
 
-client.AllowListener( 'item_equip' );
+client.AllowListener( "item_equip" );
 
-callbacks.Register( 'FireGameEvent', 'FakelagOnKnife', FakelagOnKnife );
+callbacks.Register( "FireGameEvent", "Disable Fakelag On Knife", FakelagOnKnife );
