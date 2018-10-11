@@ -1,6 +1,6 @@
-local msc_ref_part_3 = gui.Reference( "MISC", "Part 3" );
+local MSC_PART_3_REF = gui.Reference( "MISC", "Part 3" );
 
-local Autobuy_Groupbox = gui.Groupbox( msc_ref_part_3, "Autobuy", 0, 890, 213, 180 );
+local Autobuy_Groupbox = gui.Groupbox( MSC_PART_3_REF, "Autobuy", 0, 890, 213, 180 );
 
 local Autobuy_Enable = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_enable", "Enable", 0 );
 
