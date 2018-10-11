@@ -3,7 +3,7 @@ local SetValue = gui.SetValue;
 local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
 
 local FAKELAG_EXTRA_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Extra", 0, 888, 213, 180 );
-local FAKELAG_EXTRA_GROUPBOX_ACTIVATE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagextra_enable", "Activate", 0 );
+local FAKELAG_EXTRA_GROUPBOX_CHECKBOX = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagextra_enable", "Activate", 0 );
 
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonknife", "Disable On Knife", 0 );
 local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagontaser", "Disable On Taser", 0 );
@@ -11,9 +11,9 @@ local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagong
 
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonpistol", "Disable On Pistol", 0 );
 
-local function FakelagOnKnife( Event )
+local function FakelagExtra( Event )
 
-	if FAKELAG_EXTRA_GROUPBOX_ACTIVATE:GetValue() then
+	if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 
 		if ( Event:GetName() ~= "item_equip" ) then
 			return;
@@ -43,4 +43,4 @@ end
 
 client.AllowListener( "item_equip" );
 
-callbacks.Register( "FireGameEvent", "Disable Fakelag On Knife", FakelagOnKnife );
+callbacks.Register( "FireGameEvent", "Extra Fakelag Options", FakelagExtra );
