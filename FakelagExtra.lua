@@ -8,8 +8,9 @@ local FAKELAG_EXTRA_GROUPBOX_CHECKBOX = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "l
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonknife", "Disable On Knife", 0 );
 local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagontaser", "Disable On Taser", 0 );
 local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagongrenade", "Disable On Grenade", 0 );
-
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonpistol", "Disable On Pistol", 0 );
+
+local FAKELAG_SMART_MODE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagsmartmode", "Smart Fakelag Mode", 0 );
 
 local function FakelagExtra( Event )
 
@@ -24,7 +25,7 @@ local function FakelagExtra( Event )
 		local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
 
 		local WepType = Event:GetInt( "weptype" );
-		local Item = Event:GetString( "item" );
+		local ITEM = Event:GetString( "item" );
 
 		if ME == PlayerIndex then
 			if ( FAKELAG_ON_KNIFE:GetValue() and WepType == 0 ) or -- On Knife
@@ -35,6 +36,58 @@ local function FakelagExtra( Event )
 			else
 				SetValue( "msc_fakelag_enable", 1 );
 			end
+		end
+
+		-- Smart Fakelag Mode
+		if FAKELAG_SMART_MODE:GetValue() then
+
+			if entities.GetLocalPlayer() ~= nil then
+
+				local LocalPlayerEntity = entities.GetLocalPlayer();
+				local fFlags = LocalPlayerEntity:GetProp( "m_fFlags" );
+
+				local VelocityX = LocalPlayerEntity:GetPropFloat( "localdata", "m_vecVelocity[0]" );
+				local VelocityY = LocalPlayerEntity:GetPropFloat( "localdata", "m_vecVelocity[1]" );
+				local Velocity = math.sqrt( VelocityX^2 + VelocityY^2 );
+
+				-- Standing
+				if ( Velocity == 0 and fFlags == 257 ) then
+					Standing = true;
+				else
+					Standing = false;
+				end
+
+				-- Running
+				if ( Velocity > 0 and fFlags == 257 ) then
+					Running = true;
+				else
+					Running = false;
+				end
+
+				-- In Air
+				if fFlags == 256 then
+					InAir = true;
+				else
+					InAir = false;
+				end
+
+			end
+
+			if Standing then
+				SetValue( "msc_fakelag_enable", 0 );
+			end
+
+			if Running then
+				SetValue( "msc_fakelag_enable", 1 );
+				SetValue( "msc_fakelag_mode", 4 );
+				SetValue( "msc_fakelag_style", 0 );
+			end
+
+			if InAir then
+				SetValue( "msc_fakelag_enable", 1 );
+				SetValue( "msc_fakelag_mode", 2 );
+			end
+
 		end
 
 	end
