@@ -11,6 +11,9 @@ local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagong
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonpistol", "Disable On Pistol", 0 );
 
 local FAKELAG_SMART_MODE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagsmartmode", "Smart Fakelag Mode", 0 );
+local FAKELAG_SMART_MODE_STANDING = gui.Comboox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_standing", "While Standing", "Off", "Factor", "Switch", "Adaptive", "Random", "Rapid Peek" );
+local FAKELAG_SMART_MODE_RUNNING = gui.Comboox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_running", "While Running", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
+local FAKELAG_SMART_MODE_INAIR = gui.Comboox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_inair", "In Air", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
 
 local function FakelagExtra( Event )
 
@@ -40,8 +43,11 @@ local function FakelagExtra( Event )
 
 		-- Smart Fakelag Mode
 		if FAKELAG_SMART_MODE:GetValue() then
-
 			if entities.GetLocalPlayer() ~= nil then
+
+				local FAKELAG_STANDING = FAKELAG_SMART_MODE_STANDING:GetValue();
+				local FAKELAG_RUNNING = FAKELAG_SMART_MODE_RUNNING:GetValue();
+				local FAKELAG_INAIR = FAKELAG_SMART_MODE_INAIR:GetValue();
 
 				local LocalPlayerEntity = entities.GetLocalPlayer();
 				local fFlags = LocalPlayerEntity:GetProp( "m_fFlags" );
@@ -74,22 +80,61 @@ local function FakelagExtra( Event )
 			end
 
 			if Standing then
-				SetValue( "msc_fakelag_enable", 0 );
+				SetValue( "msc_fakelag_mode", STANDING_MODE );
+				if FAKELAG_STANDING == 0 then
+					SetValue( "msc_fakelag_enable", 0 );
+				elseif FAKELAG_STANDING == 1 then
+					STANDING_MODE = 0
+				elseif FAKELAG_STANDING == 2 then
+					STANDING_MODE = 1
+				elseif FAKELAG_STANDING == 3 then
+					STANDING_MODE = 2
+				elseif FAKELAG_STANDING == 4 then
+					STANDING_MODE = 3
+				elseif FAKELAG_STANDING == 5 then
+					STANDING_MODE = 5
+				end
 			end
 
 			if Running then
-				SetValue( "msc_fakelag_enable", 1 );
-				SetValue( "msc_fakelag_mode", 4 );
-				SetValue( "msc_fakelag_style", 0 );
+				SetValue( "msc_fakelag_mode", RUNNING_MODE );
+				if FAKELAG_RUNNING == 0 then
+					SetValue( "msc_fakelag_enable", 0 );
+				elseif FAKELAG_RUNNING == 1 then
+					RUNNING_MODE = 0
+				elseif FAKELAG_RUNNING == 2 then
+					RUNNING_MODE = 1
+				elseif FAKELAG_RUNNING == 3 then
+					RUNNING_MODE = 2
+				elseif FAKELAG_RUNNING == 4 then
+					RUNNING_MODE = 3
+				elseif FAKELAG_RUNNING == 5 then
+					RUNNING_MODE = 4
+				elseif FAKELAG_RUNNING == 6 then
+					RUNNING_MODE = 5
+				end
 			end
 
 			if InAir then
-				SetValue( "msc_fakelag_enable", 1 );
-				SetValue( "msc_fakelag_mode", 2 );
+				SetValue( "msc_fakelag_mode", INAIR_MODE );
+				if FAKELAG_INAIR == 0 then
+					SetValue( "msc_fakelag_enable", 0 );
+				elseif FAKELAG_INAIR == 1 then
+					INAIR_MODE = 0
+				elseif FAKELAG_INAIR == 2 then
+					INAIR_MODE = 1
+				elseif FAKELAG_INAIR == 3 then
+					INAIR_MODE = 2
+				elseif FAKELAG_INAIR == 4 then
+					INAIR_MODE = 3
+				elseif FAKELAG_INAIR == 5 then
+					INAIR_MODE = 4
+				elseif FAKELAG_INAIR == 6 then
+					INAIR_MODE = 5
+				end
 			end
 
 		end
-
 	end
 
 end
