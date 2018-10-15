@@ -1,10 +1,10 @@
 local MSC_PART_3_REF = gui.Reference( "MISC", "Part 3" );
 
-local MetallicHitsound = gui.Checkbox( MSC_PART_3_REF, "lua_metallichitsound", "Metallic Hitsound", 0 );
+local AWMetallicHitsound = gui.Checkbox( MSC_PART_3_REF, "lua_metallichitsound", "Metallic Hitsound", 0 );
 
 local function MetallicHitsound( Event )
 
-	if MetallicHitsound:GetValue() then
+	if AWMetallicHitsound:GetValue() then
 
 		if gui.GetValue( "msc_hitmarker_enable" ) then
 			gui.SetValue( "msc_hitmarker_volume", 0 );
