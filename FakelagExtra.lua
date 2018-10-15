@@ -12,7 +12,7 @@ local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonpi
 
 local FAKELAG_SMART_MODE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagsmartmode", "Fakelag Smart Mode", 0 );
 local FAKELAG_SMART_MODE_STANDING = gui.Combobox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_standing", "While Standing", "Off", "Factor", "Switch", "Adaptive", "Random", "Rapid Peek" );
-local FAKELAG_SMART_MODE_RUNNING = gui.Combobox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_running", "While Running", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
+local FAKELAG_SMART_MODE_MOVING = gui.Combobox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_moving", "While Moving", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
 local FAKELAG_SMART_MODE_INAIR = gui.Combobox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_inair", "While In Air", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
 
 local function FakelagExtra( Event )
@@ -73,7 +73,7 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 	if FAKELAG_SMART_MODE:GetValue() then
 
 		local FAKELAG_STANDING = FAKELAG_SMART_MODE_STANDING:GetValue();
-		local FAKELAG_RUNNING = FAKELAG_SMART_MODE_RUNNING:GetValue();
+		local FAKELAG_MOVING = FAKELAG_SMART_MODE_MOVING:GetValue();
 		local FAKELAG_INAIR = FAKELAG_SMART_MODE_INAIR:GetValue();
 
 		if entities.GetLocalPlayer() ~= nil then
@@ -93,11 +93,11 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 				Standing = false
 			end
 
-			-- Running
+			-- Moving
 			if ( Velocity > 0 and fFlags == 257 ) then
-				Running = true
+				Moving = true
 			else
-				Running = false
+				Moving = false
 			end
 
 			-- In Air
@@ -135,8 +135,8 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 			end
 		end
 
-		if Running then
-			if FAKELAG_RUNNING == 0 or
+		if Moving then
+			if FAKELAG_MOVING == 0 or
 			   ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_ON_TASER:GetValue() and Taser ) or
 			   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
@@ -146,20 +146,20 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 				SetValue( "msc_fakelag_enable", 1 );
 			end
 
-			SetValue( "msc_fakelag_mode", RUNNING_MODE );
+			SetValue( "msc_fakelag_mode", MOVING_MODE );
 
-			if FAKELAG_RUNNING == 1 then
-				RUNNING_MODE = 0
-			elseif FAKELAG_RUNNING == 2 then
-				RUNNING_MODE = 1
-			elseif FAKELAG_RUNNING == 3 then
-				RUNNING_MODE = 2
-			elseif FAKELAG_RUNNING == 4 then
-				RUNNING_MODE = 3
-			elseif FAKELAG_RUNNING == 5 then
-				RUNNING_MODE = 4
-			elseif FAKELAG_RUNNING == 6 then
-				RUNNING_MODE = 5
+			if FAKELAG_MOVING == 1 then
+				MOVING_MODE = 0
+			elseif FAKELAG_MOVING == 2 then
+				MOVING_MODE = 1
+			elseif FAKELAG_MOVING == 3 then
+				MOVING_MODE = 2
+			elseif FAKELAG_MOVING == 4 then
+				MOVING_MODE = 3
+			elseif FAKELAG_MOVING == 5 then
+				MOVING_MODE = 4
+			elseif FAKELAG_MOVING == 6 then
+				MOVING_MODE = 5
 			end
 		end
 
