@@ -1,10 +1,10 @@
 local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
 
-local ShowSpreadCrosshair = gui.Checkbox( VIS_MAIN_REF, "lua_spreadcrosshair", "Spread Crosshair On Sniper", 0 );
+local AWSniperCrosshair = gui.Checkbox( VIS_MAIN_REF, "lua_snipercrosshair", "Sniper Crosshair", 0 );
 
-local function SpreadCrosshair()
+local function SniperCrosshair()
 
-	if ShowSpreadCrosshair:GetValue() then
+	if AWSniperCrosshair:GetValue() then
 		if entities.GetLocalPlayer() ~= nil then
 			local LocalPlayerEntity = entities.GetLocalPlayer();
 			local isScoped = LocalPlayerEntity:GetPropInt( "m_bIsScoped" );
@@ -32,4 +32,4 @@ local function SpreadCrosshair()
 
 end
 
-callbacks.Register( "Draw", "Show Spread Crosshair", SpreadCrosshair )
+callbacks.Register( "Draw", "Sniper Crosshair", SniperCrosshair )
