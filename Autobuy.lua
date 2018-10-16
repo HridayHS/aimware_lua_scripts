@@ -16,9 +16,11 @@ local Autobuy_Molotov = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_molotov", "
 local Autobuy_Flashbang = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_flashbang", "Flashbang", 0 );
 local Autobuy_Decoy = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_decoy", "Decoy", 0 );
 
+local Money = 0
+
 local function Autobuy( Event )
 
-if Event:GetName() == "round_start" then
+if Event:GetName() == "round_prestart" then
 	if entities.GetLocalPlayer() ~= nil then
 		Money = entities.GetLocalPlayer():GetProp( "m_iAccount" )
 	end
