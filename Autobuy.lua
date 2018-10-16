@@ -1,24 +1,20 @@
 local MSC_PART_3_REF = gui.Reference( "MISC", "Part 3" );
 
 local Autobuy_Groupbox = gui.Groupbox( MSC_PART_3_REF, "Autobuy", 0, 890, 213, 180 );
-
 local Autobuy_Enable = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_enable", "Enable", 0 );
 
-local Autobuy_Weapon_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Weapons", 0, 30, 182, 120 );
-local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_primaryweapon", "Primary", "Off", "Auto", "Scout", "AWP", "Rifle" );
-local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Weapon_Groupbox, "lua_autobuy_secondaryweapon", "Secondary", "Off", "Dualies", "Deagle/Revolver" );
+local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_primaryweapon", "Primary Weapon", "Off", "Auto", "Scout", "AWP", "Rifle" );
+local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_secondaryweapon", "Secondary Weapon", "Off", "Dualies", "Deagle/Revolver" );
 
-local Autobuy_Equipment_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Equipments", 0, 165, 182, 120 );
-local Autobuy_Kevlar = gui.Combobox( Autobuy_Equipment_Groupbox, "lua_autobuy_armor", "Armor", "Off", "Kevlar", "Kevlar + Helmet" );
-local Autobuy_Defuser = gui.Checkbox( Autobuy_Equipment_Groupbox, "lua_autobuy_defuser", "Defuser", 0 );
-local Autobuy_Taser = gui.Checkbox( Autobuy_Equipment_Groupbox, "lua_autobuy_taser", "Taser", 0 );
+local Autobuy_Kevlar = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_armor", "Armor", "Off", "Kevlar", "Kevlar + Helmet" );
+local Autobuy_Defuser = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_defuser", "Defuser", 0 );
+local Autobuy_Taser = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_taser", "Taser", 0 );
 
-local Autobuy_Grenade_Groupbox = gui.Groupbox( Autobuy_Groupbox, "Grenades", 0, 300, 182, 95 );
-local Autobuy_HEGrenade = gui.Checkbox( Autobuy_Grenade_Groupbox, "lua_autobuy_hegrenade", "HE Grenade", 0 );
-local Autobuy_Smoke = gui.Checkbox( Autobuy_Grenade_Groupbox, "lua_autobuy_smoke", "Smoke", 0 );
-local Autobuy_Molotov = gui.Checkbox( Autobuy_Grenade_Groupbox, "lua_autobuy_molotov", "Molotov", 0 );
-local Autobuy_Flashbang = gui.Checkbox( Autobuy_Grenade_Groupbox, "lua_autobuy_flashbang", "Flashbang", 0 );
-local Autobuy_Decoy = gui.Checkbox( Autobuy_Grenade_Groupbox, "lua_autobuy_decoy", "Decoy", 0 );
+local Autobuy_HEGrenade = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_hegrenade", "HE Grenade", 0 );
+local Autobuy_Smoke = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_smoke", "Smoke", 0 );
+local Autobuy_Molotov = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_molotov", "Molotov", 0 );
+local Autobuy_Flashbang = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_flashbang", "Flashbang", 0 );
+local Autobuy_Decoy = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_decoy", "Decoy", 0 );
 
 local function Autobuy( Event )
 
@@ -37,8 +33,6 @@ end
 		if Event:GetName() == "round_prestart" then
 
 			if ( Money > 2200 ) then
-
-			-- Weapon Groupbox
 				-- Primary Weapon
 				if PrimaryWeapon == 1 then -- Auto
 					client.Command( "buy scar20", true );
@@ -59,9 +53,7 @@ end
 				if SecondaryWeapon == 2 then -- Deagle/Revolver
 					client.Command( "buy deagle", true );
 				end
-			-- Weapon Groupbox End
 
-			-- Equipment Groupbox
 				-- Kevlar
 				if Kevlar == 1 then
 					client.Command( "buy vest", true );
@@ -77,9 +69,7 @@ end
 				if Autobuy_Taser:GetValue() then
 					client.Command( "buy taser", true );
 				end
-			-- Equipment Groupbox End
 
-			-- Grenade Groupbox
 				-- HE Grenade
 				if Autobuy_HEGrenade:GetValue() then
 					client.Command( "buy hegrenade", true );
@@ -100,7 +90,6 @@ end
 				if Autobuy_Decoy:GetValue() then
 					client.Command( "buy decoy", true );
 				end
-			-- Grenade Groupbox End
 			end
 
 			if ( Money > 199 ) then
