@@ -9,6 +9,7 @@ local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonkni
 local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagontaser", "Disable On Taser", 0 );
 local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagongrenade", "Disable On Grenade", 0 );
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonpistol", "Disable On Pistol", 0 );
+local FAKELAG_ON_REVOLVER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagonrevolver", "Disable on R8/Deagle", 0 );
 
 local FAKELAG_SMART_MODE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelagsmartmode", "Fakelag Smart Mode", 0 );
 local FAKELAG_SMART_MODE_STANDING = gui.Combobox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_standing", "While Standing", "Off", "Factor", "Switch", "Adaptive", "Random", "Rapid Peek" );
@@ -51,12 +52,18 @@ local function FakelagExtra( Event )
 			else
 				Grenade = false
 			end
+			if ITEM == "deagle" then
+				Revolver = true
+			else
+				Revolver = false
+			end
 		end
 		
 		if ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or -- On Knife
 		   ( FAKELAG_ON_TASER:GetValue() and Taser ) or -- On Taser
 		   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or -- On Grenade
-		   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) then -- On Pistol
+		   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or -- On Pistol
+		   ( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then -- On Revolver
 			SetValue( "msc_fakelag_enable", 0 );
 		else
 			SetValue( "msc_fakelag_enable", 1 );
@@ -114,7 +121,8 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 			   ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_ON_TASER:GetValue() and Taser ) or
 			   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) then
+			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -140,7 +148,8 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 			   ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_ON_TASER:GetValue() and Taser ) or
 			   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) then
+			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -168,7 +177,8 @@ if FAKELAG_EXTRA_GROUPBOX_CHECKBOX:GetValue() then
 			   ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_ON_TASER:GetValue() and Taser ) or
 			   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) then
+			   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
