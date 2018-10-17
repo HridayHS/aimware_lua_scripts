@@ -18,13 +18,13 @@ local Autobuy_Decoy = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_decoy", "Deco
 
 local Money = 0
 
-local function Autobuy( Event )
-
-if Event:GetName() == "round_prestart" then
+local function LocalPlayerMoney()
 	if entities.GetLocalPlayer() ~= nil then
 		Money = entities.GetLocalPlayer():GetProp( "m_iAccount" )
 	end
 end
+
+local function Autobuy( Event )
 
 	local PrimaryWeapon = Autobuy_PrimaryWeapon:GetValue()
 	local SecondaryWeapon = Autobuy_SecondaryWeapon:GetValue()
@@ -107,6 +107,7 @@ end
 
 end
 
-client.AllowListener( "round_prestart" );
+client.AllowListener( "round_prestart" )
 
-callbacks.Register( "FireGameEvent", "Autobuy", Autobuy );
+callbacks.Register( "Draw", "Local Player Money", LocalPlayerMoney )
+callbacks.Register( "FireGameEvent", "Autobuy", Autobuy )
