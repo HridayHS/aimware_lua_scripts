@@ -18,10 +18,10 @@ local function LegitAnitAimOnPing()
 			local Ping = entities.GetPlayerResources():GetPropInt( "m_iPing", client.GetLocalPlayerIndex() );	
 	
 			if LegitAnitAimOnPingValue > 0 then
-				if Ping <= LegitAnitAimOnPingValue then
-					SetValue( "lbot_antiaim_mode", LBOT_ANTI_AIM_MODE );
+				if Ping >= LegitAnitAimOnPingValue then
+					SetValue( "lbot_antiaim_mode", 0 );	
 				else
-					SetValue( "lbot_antiaim_mode", 0 );
+					SetValue( "lbot_antiaim_mode", LBOT_ANTI_AIM_MODE );
 				end
 			end
 
