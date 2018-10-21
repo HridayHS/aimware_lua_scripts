@@ -1,4 +1,4 @@
-function DrawPING()
+local function DrawPING()
 
 	local w, h = draw.GetScreenSize();
 
@@ -7,14 +7,22 @@ function DrawPING()
 		PING = entities.GetPlayerResources():GetPropInt( "m_iPing", client.GetLocalPlayerIndex() );
 
 		DrawPingColor();
-		draw.Text( 30, h - 440, PING );
+		draw.Text( 30, h - 443, PING );
 
 	else
 
 		draw.Color( 255, 255, 255, 255 );
-		draw.Text( 30, h - 440, "0" );
+		draw.Text( 30, h - 443, "0" );
 
 	end
+
+	if gui.GetValue("msc_fakelatency_enable") then
+		draw.Color( 0, 255, 0, 255 );
+	else
+		draw.Color( 255, 255, 255, 255 );
+	end
+
+	draw.Text( 2, h - 443, "PING" )
 
 end
 
