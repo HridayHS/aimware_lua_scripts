@@ -9,7 +9,7 @@ local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_knif
 local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_taser", "Disable On Taser", 0 );
 local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_grenade", "Disable On Grenade", 0 );
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_pistol", "Disable On Pistol", 0 );
-local FAKELAG_ON_REVOLVER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_revolver", "Disable on R8/Deagle", 0 );
+local FAKELAG_ON_REVOLVER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_revolver", "Disable On R8/Deagle", 0 );
 
 local FAKELAG_ON_PING = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_ping", "Disable Fakelag On Ping", 0 )
 local FAKELAG_ON_PING_AMOUNT = gui.Slider( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_ping_amount", "Amount", 120, 0, 1000 )
