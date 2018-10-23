@@ -32,75 +32,80 @@ local function Autobuy( Event )
 
 	if Autobuy_Enable:GetValue() then
 
-		if Event:GetName() == "round_prestart" then
+		if Event:GetName() ~= "round_prestart" then
+			return;
+		end
 
-			if ( Money > 2200 ) then
-				-- Primary Weapon
-				if PrimaryWeapon == 1 then -- Auto
-					client.Command( "buy scar20", true );
-				end
-				if PrimaryWeapon == 2 then -- Scout
-					client.Command( "buy ssg08", true );
-				end
-				if PrimaryWeapon == 3 then -- AWP
-					client.Command( "buy awp", true );
-				end
-				if PrimaryWeapon == 4 then -- Rifle
-					client.Command( "buy ak47; buy m4a1; buy m4a1_silencer", true );
-				end
-				-- Secondary Weapon
-				if SecondaryWeapon == 1 then -- Dualies
-					client.Command( "buy elite", true );
-				end
-				if SecondaryWeapon == 2 then -- Deagle/Revolver
-					client.Command( "buy deagle", true );
-				end
-
-				-- Kevlar
-				if Kevlar == 1 then
-					client.Command( "buy vest", true );
-				end
-				if Kevlar == 2 then
-					client.Command( "buy vesthelm", true );
-				end
-				-- Defuser
-				if Autobuy_Defuser:GetValue() then
-					client.Command( "buy defuser", true );
-				end
-				-- Taser
-				if Autobuy_Taser:GetValue() then
-					client.Command( "buy taser", true );
-				end
-
-				-- HE Grenade
-				if Autobuy_HEGrenade:GetValue() then
-					client.Command( "buy hegrenade", true );
-				end
-				-- Smoke
-				if Autobuy_Smoke:GetValue() then
-					client.Command( "buy smokegrenade", true );
-				end
-				-- Molotov
-				if Autobuy_Molotov:GetValue() then
-					client.Command( "buy molotov; buy incgrenade", true );
-				end
-				-- Flashbang
-				if Autobuy_Flashbang:GetValue() then
-					client.Command( "buy flashbang", true );
-				end
-				-- Decoy
-				if Autobuy_Decoy:GetValue() then
-					client.Command( "buy decoy", true );
-				end
+		if ( Money <= 800 ) then
+			-- Taser
+			if Autobuy_Taser:GetValue() then
+				client.Command( "buy taser", true );
+			end
+			-- Secondary Weapon
+			if SecondaryWeapon == 1 then -- Dualies
+				client.Command( "buy elite", true );
+			end
+			if SecondaryWeapon == 2 then -- Deagle/Revolver
+				client.Command( "buy deagle", true );
+			end
+		else
+			-- Primary Weapon
+			if PrimaryWeapon == 1 then -- Auto
+				client.Command( "buy scar20", true );
+			end
+			if PrimaryWeapon == 2 then -- Scout
+				client.Command( "buy ssg08", true );
+			end
+			if PrimaryWeapon == 3 then -- AWP
+				client.Command( "buy awp", true );
+			end
+			if PrimaryWeapon == 4 then -- Rifle
+				client.Command( "buy ak47", true );
+			end
+			-- Secondary Weapon
+			if SecondaryWeapon == 1 then -- Dualies
+				client.Command( "buy elite", true );
+			end
+			if SecondaryWeapon == 2 then -- Deagle/Revolver
+				client.Command( "buy deagle", true );
 			end
 
-			if ( Money > 199 ) then
-				if Autobuy_Taser:GetValue() then
-					client.Command( "buy taser", true );
-				end
-
+			-- Kevlar
+			if Kevlar == 1 then
+				client.Command( "buy vest", true );
+			end
+			if Kevlar == 2 then
+				client.Command( "buy vesthelm", true );
+			end
+			-- Defuser
+			if Autobuy_Defuser:GetValue() then
+				client.Command( "buy defuser", true );
+			end
+			-- Taser
+			if Autobuy_Taser:GetValue() then
+				client.Command( "buy taser", true );
 			end
 
+			-- HE Grenade
+			if Autobuy_HEGrenade:GetValue() then
+				client.Command( "buy hegrenade", true );
+			end
+			-- Smoke
+			if Autobuy_Smoke:GetValue() then
+				client.Command( "buy smokegrenade", true );
+			end
+			-- Molotov
+			if Autobuy_Molotov:GetValue() then
+				client.Command( "buy molotov", true );
+			end
+			-- Flashbang
+			if Autobuy_Flashbang:GetValue() then
+				client.Command( "buy flashbang", true );
+			end
+			-- Decoy
+			if Autobuy_Decoy:GetValue() then
+				client.Command( "buy decoy", true );
+			end
 		end
 
 	end
