@@ -3,7 +3,7 @@ local SetValue = gui.SetValue;
 local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
 
 local FAKELAG_EXTRA_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Extra", 0, 888, 213, 140 );
-local FAKELAG_SMART_MODE_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Smart Mode", 0, 1045, 213, 192 );
+local FAKELAG_SMART_MODE_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Smart Mode", 0, 1045, 213, 205 );
 
 local FAKELAG_EXTRA = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_extra_enable", "Enable", 0 );
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_knife", "Disable On Knife", 0 );
@@ -16,9 +16,13 @@ local FAKELAG_ON_PING = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_ping"
 local FAKELAG_ON_PING_AMOUNT = gui.Slider( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_ping_amount", "Amount", 120, 0, 1000 )
 
 local FAKELAG_SMART_MODE = gui.Checkbox( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_smartmode_enable", "Enable", 0 );
+local FAKELAG_SMART_MODE_FACTOR = gui.Checkbox( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_value", "Smart Mode Factor", 0 );
 local FAKELAG_SMART_MODE_STANDING = gui.Combobox( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_standing", "While Standing", "Off", "Factor", "Switch", "Adaptive", "Random", "Rapid Peek" );
+local FAKELAG_SMART_MODE_STANDING_FACTOR = gui.Slider( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_standing_factor", "Factor", 15, 1, 15 );
 local FAKELAG_SMART_MODE_MOVING = gui.Combobox( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_moving", "While Moving", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
+local FAKELAG_SMART_MODE_MOVING_FACTOR = gui.Slider( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_moving_factor", "Factor", 15, 1, 15 );
 local FAKELAG_SMART_MODE_INAIR = gui.Combobox( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_inair", "While In Air", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
+local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( FAKELAG_SMART_MODE_GROUPBOX, "lua_fakelag_inair_factor", "Factor", 15, 1, 15 );
 
 local Ping = 0
 
@@ -107,6 +111,10 @@ local function FakelagSmartMode()
 		local FAKELAG_STANDING = FAKELAG_SMART_MODE_STANDING:GetValue();
 		local FAKELAG_MOVING = FAKELAG_SMART_MODE_MOVING:GetValue();
 		local FAKELAG_INAIR = FAKELAG_SMART_MODE_INAIR:GetValue();
+
+		local FAKELAG_STANDING_FACTOR = math.floor( FAKELAG_SMART_MODE_STANDING_FACTOR:GetValue() )
+		local FAKELAG_MOVING_FACTOR = math.floor( FAKELAG_SMART_MODE_MOVING_FACTOR:GetValue() )
+		local FAKELAG_INAIR_FACTOR = math.floor( FAKELAG_SMART_MODE_INAIR_FACTOR:GetValue() )
 
 		if entities.GetLocalPlayer() ~= nil then
 
@@ -228,8 +236,23 @@ local function FakelagSmartMode()
 			SetValue( "msc_fakelag_mode", INAIR_MODE );
 		end
 
-	end
+		if FAKELAG_SMART_MODE_FACTOR:GetValue() then
 
+			if Standing then
+				SetValue( "msc_fakelag_value", FAKELAG_STANDING_FACTOR );
+			end
+
+			if Moving then
+				SetValue( "msc_fakelag_value", FAKELAG_MOVING_FACTOR );
+			end
+
+			if InAir then
+				SetValue( "msc_fakelag_value", FAKELAG_INAIR_FACTOR );
+			end
+
+		end
+
+	end
 end
 
 client.AllowListener( "item_equip" )
