@@ -2,8 +2,8 @@ local SetValue = gui.SetValue;
 
 local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
 
-local FAKELAG_EXTRA_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Extra", 0, 888, 213, 140 );
-local FAKELAG_SMART_MODE_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Smart Mode", 0, 1045, 213, 205 );
+local FAKELAG_EXTRA_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Extra", 0, 912, 213, 140 );
+local FAKELAG_SMART_MODE_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Smart Mode", 0, 1069, 213, 205 );
 
 local FAKELAG_EXTRA = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_extra_enable", "Enable", 0 );
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_knife", "Disable On Knife", 0 );
