@@ -1,36 +1,23 @@
 local MSC_PART_1_REF = gui.Reference( "MISC", "Part 1" );
 
-local Chicken_DeathSay = gui.Checkbox( MSC_PART_1_REF, "lua_chicken_deathsay", "Chicken Death Say", 0 );
+local ChickenDeathSay_Checkbox = gui.Checkbox( MSC_PART_1_REF, "lua_chicken_deathsay", "Chicken Death Say", 0 );
 
 local function ChickenDeathSay( Event, Entity )
 
-if Chicken_DeathSay:GetValue() then
+	if ChickenDeathSay_Checkbox:GetValue() then
 
-	if Event:GetName() ~= nil then
+		if ( Event:GetName() == "other_death" ) then
 
-	local UID = Event:GetInt( "userid" );  
-	
-	local Killer_INT = Event:GetInt( "attacker" ); 
-	local Killer_Name = client.GetPlayerNameByUserID( Killer_INT ); 
-	
-	local Weapon = Event:GetString( "weapon" );
-	local Locate = entities.FindByClass( "CBasePlayer" );
+			local Killer_INT = Event:GetInt( "attacker" );
+			local Killer_Name = client.GetPlayerNameByUserID( Killer_INT );
 
-		for i = 1, #Locate do
-			local Location = Locate[i]:GetPropString( "m_szLastPlaceName" );
+			local Weapon = Event:GetString( "weapon" );
 
-			if Location == nil then 
-				Location = "Unknown"; 
-			end
+			client.ChatSay( string.format( "%s murdered a chicken with the %s.", Killer_Name, Weapon ) )
 
-			chatsay = string.format( "%s murdered a chicken with the %s at %s!", Killer_Name, Weapon, Location )
-
-			if ( Event:GetName() == "other_death" ) then
-				client.ChatSay(chatsay)
-			end
 		end
+
 	end
-end
 
 end
 
