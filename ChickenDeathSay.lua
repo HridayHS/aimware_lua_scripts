@@ -2,7 +2,7 @@ local MSC_PART_1_REF = gui.Reference( "MISC", "Part 1" );
 
 local ChickenDeathSay_Checkbox = gui.Checkbox( MSC_PART_1_REF, "lua_chicken_deathsay", "Chicken Death Say", 0 );
 
-local function ChickenDeathSay( Event, Entity )
+local function ChickenDeathSay( Event )
 
 	if ChickenDeathSay_Checkbox:GetValue() then
 
