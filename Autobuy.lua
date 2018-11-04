@@ -3,8 +3,8 @@ local MSC_PART_3_REF = gui.Reference( "MISC", "Part 3" );
 local Autobuy_Groupbox = gui.Groupbox( MSC_PART_3_REF, "Autobuy", 0, 890, 213, 180 );
 local Autobuy_Enable = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_enable", "Enable", 0 );
 
-local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_primaryweapon", "Primary Weapon", "Off", "Auto", "Scout", "AWP", "Rifle", "Famas : Galil", "AUG : SG 553", "MAC-10 : MP9", "MP7 : MP5-SD", "UMP-45", "P90", "PP-Bizon", "Nova", "XM1014", "Sawed-Off : MAG-7", "M249", "Negev" );
-local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_secondaryweapon", "Secondary Weapon", "Off", "Dual Berettas", "P250", "CZ75-Auto : Tec-9 : Five-Seven", "Desert Eagle : R8 Revolver" );
+local Autobuy_PrimaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_primaryweapon", "Primary Weapon", "Off", "Auto", "Scout", "AWP", "Rifle", "Famas : Galil AR", "AUG : SG 553", "MP9 : MAC-10", "MP7 : MP5-SD", "UMP-45", "P90", "PP-Bizon", "Nova", "XM1014", "MAG-7 : Sawed-Off", "M249", "Negev" );
+local Autobuy_SecondaryWeapon = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_secondaryweapon", "Secondary Weapon", "Off", "Dual Berettas", "P250", "Five-Seven : CZ75-Auto : Tec-9", "Desert Eagle : R8 Revolver" );
 
 local Autobuy_Armor = gui.Combobox( Autobuy_Groupbox, "lua_autobuy_armor", "Armor", "Off", "Kevlar", "Kevlar + Helmet" );
 local Autobuy_Defuser = gui.Checkbox( Autobuy_Groupbox, "lua_autobuy_defuser", "Defuser", 0 );
@@ -53,16 +53,16 @@ local function Autobuy( Event )
 			elseif PrimaryWeapon == 2 then client.Command( "buy ssg08", true ); -- Scout
 			elseif PrimaryWeapon == 3 then client.Command( "buy awp", true ); -- AWP
 			elseif PrimaryWeapon == 4 then client.Command( "buy ak47", true ); -- Rifle
-			elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas | Galil
-			elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG | SG 553
-			elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); -- MAC-10 | MP9
-			elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 | MP5-SD
+			elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas : Galil AR
+			elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG : SG 553
+			elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); --  MP9 : MAC-10
+			elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 : MP5-SD
 			elseif PrimaryWeapon == 9 then client.Command( "buy ump45", true ); -- UMP-45
 			elseif PrimaryWeapon == 10 then client.Command( "buy p90", true ); -- P90
 			elseif PrimaryWeapon == 11 then client.Command( "buy bizon", true ); -- PP-Bizon
 			elseif PrimaryWeapon == 12 then client.Command( "buy nova", true ); -- Nova
 			elseif PrimaryWeapon == 13 then client.Command( "buy xm1014", true ); -- XM1014
-			elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- Sawed-Off | MAG-7
+			elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- MAG-7 : Sawed-Off
 			elseif PrimaryWeapon == 15 then client.Command( "buy m249", true ); -- M249
 			elseif PrimaryWeapon == 16 then client.Command( "buy negev", true ); -- Negev
 			end
