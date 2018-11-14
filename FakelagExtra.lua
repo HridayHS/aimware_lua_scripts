@@ -127,21 +127,21 @@ local function FakelagSmartMode()
 			local Velocity = math.sqrt( VelocityX^2 + VelocityY^2 );
 
 			-- Standing
-			if ( Velocity == 0 and fFlags == 257 ) then
+			if ( Velocity == 0 and ( fFlags == 257 or fFlags == 261 or fFlags == 263 ) ) then
 				Standing = true
 			else
 				Standing = false
 			end
 
 			-- Moving
-			if ( Velocity > 0 and fFlags == 257 ) then
+			if ( Velocity > 0 and ( fFlags == 257 or fFlags == 261 or fFlags == 263 ) ) then
 				Moving = true
 			else
 				Moving = false
 			end
 
 			-- In Air
-			if fFlags == 256 then
+			if fFlags == 256 or fFlags == 262 then
 				InAir = true
 			else
 				InAir = false
