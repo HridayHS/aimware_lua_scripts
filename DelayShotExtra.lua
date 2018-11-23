@@ -7,17 +7,17 @@ local ACCURATE_UNLAG_ON_KNIFE = gui.Checkbox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_de
 local ACCURATE_UNLAG_ON_TASER = gui.Checkbox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_taser", "Accurate Unlag On Taser", 0 );
 
 local DELAY_SHOT_ON_WEAPON = gui.Checkbox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_weapon", "On Weapon", 0 );
-local PISTOL_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_pistol_delayshot", "Pistol", "Off", "Accurate Unlag", "Accurate History" );
-local REVOLVER_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_revolver_delayshot", "Revolver", "Off", "Accurate Unlag", "Accurate History" );
-local SMG_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_smg_delayshot", "SMG", "Off", "Accurate Unlag", "Accurate History" );
-local RIFLE_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_rifle_delayshot", "Rifle", "Off", "Accurate Unlag", "Accurate History" );
-local SHOTGUN_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_shotgun_delayshot", "Shotgun", "Off", "Accurate Unlag", "Accurate History" );
-local SCOUT_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_scout_delayshot", "Scout", "Off", "Accurate Unlag", "Accurate History" );
-local AUTOSNIPER_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_autosniper_delayshot", "Auto Sniper", "Off", "Accurate Unlag", "Accurate History" );
-local SNIPER_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_sniper_delayshot", "Sniper", "Off", "Accurate Unlag", "Accurate History" );
-local LMG_DELAY_SHOT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_lmg_delayshot", "LMG", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_PISTOL = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_pistol", "Pistol", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_REVOLVER = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_revolver", "Revolver", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_SMG = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_smg", "SMG", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_RIFLE = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_rifle", "Rifle", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_SHOTGUN = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_shotgun", "Shotgun", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_SCOUT = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_scout", "Scout", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_AUTOSNIPER = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_autosniper", "Auto Sniper", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_SNIPER = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_sniper", "Sniper", "Off", "Accurate Unlag", "Accurate History" );
+local DELAY_SHOT_LMG = gui.Combobox( DELAY_SHOT_EXTRA_GROUPBOX, "lua_delayshot_lmg", "LMG", "Off", "Accurate Unlag", "Accurate History" );
 
-local function WeaponDelayShot( Event )
+local function DelayShotExtra( Event )
 
 	if DELAY_SHOT_EXTRA:GetValue() then
 
@@ -100,57 +100,57 @@ local function WeaponDelayShot( Event )
 
 		if DELAY_SHOT_ON_WEAPON:GetValue() then
 			if Pistol then
-				if PISTOL_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif PISTOL_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif PISTOL_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_PISTOL:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_PISTOL:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_PISTOL:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if Revolver then
-				if REVOLVER_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif REVOLVER_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif REVOLVER_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_REVOLVER:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_REVOLVER:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_REVOLVER:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if SMG then
-				if SMG_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif SMG_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif SMG_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_SMG:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_SMG:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_SMG:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if Rifle then
-				if RIFLE_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif RIFLE_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif RIFLE_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_RIFLE:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_RIFLE:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_RIFLE:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if Shotgun then
-				if SHOTGUN_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif SHOTGUN_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif SHOTGUN_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_SHOTGUN:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_SHOTGUN:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_SHOTGUN:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if Scout then
-				if SCOUT_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif SCOUT_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif SCOUT_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_SCOUT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_SCOUT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_SCOUT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if AutoSniper then
-				if AUTOSNIPER_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif AUTOSNIPER_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif AUTOSNIPER_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_AUTOSNIPER:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_AUTOSNIPER:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_AUTOSNIPER:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if Sniper then
-				if SNIPER_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif SNIPER_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif SNIPER_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_SNIPER:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_SNIPER:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_SNIPER:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 			if LMG then
-				if LMG_DELAY_SHOT:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
-				elseif LMG_DELAY_SHOT:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
-				elseif LMG_DELAY_SHOT:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
+				if DELAY_SHOT_LMG:GetValue() == 0 then gui.SetValue( "rbot_delayshot", 0 );
+				elseif DELAY_SHOT_LMG:GetValue() == 1 then gui.SetValue( "rbot_delayshot", 1 );
+				elseif DELAY_SHOT_LMG:GetValue() == 2 then gui.SetValue( "rbot_delayshot", 2 );
 				end
 			end
 		end
@@ -159,4 +159,4 @@ local function WeaponDelayShot( Event )
 
 end
 
-callbacks.Register( "FireGameEvent", "WeaponDelayShot", WeaponDelayShot )
+callbacks.Register( "FireGameEvent", "Delay Shot Extra", DelayShotExtra )
