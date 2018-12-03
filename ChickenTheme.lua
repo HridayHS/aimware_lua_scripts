@@ -1,6 +1,6 @@
 local VIS_OTHER_OPTIONS_REF = gui.Reference( "VISUALS", "OTHER", "Options" );
 
-local ChickenTheme_Combobox = gui.Combobox( VIS_OTHER_OPTIONS_REF, "lua_chickentheme", "Chicken Theme", "Default", "Ghost Chicken", "Festive Chicken", "Easter Chicken", "Jack-o-Chicken", "Party Chicken" );
+local ChickenTheme_Combobox = gui.Combobox( VIS_OTHER_OPTIONS_REF, "lua_chickentheme", "Chicken Theme", "Off", "Ghost Chicken", "Festive Chicken", "Easter Chicken", "Jack-o-Chicken", "Party Chicken" );
 local ChickenSkin_Combobox = gui.Combobox( VIS_OTHER_OPTIONS_REF, "lua_chickenskin", "Chicken Skin", "White", "Red" );
 
 local ChickenScale_Slider = gui.Slider( VIS_OTHER_OPTIONS_REF, "lua_chickenscale", "Chicken Scale", 1.0, 1.0, 5.0 );
