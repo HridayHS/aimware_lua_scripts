@@ -1,4 +1,5 @@
 local SetValue = gui.SetValue;
+local GetValue = gui.GetValue;
 
 local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
 
@@ -6,6 +7,7 @@ local FAKELAG_EXTRA_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Extra", 0,
 local FAKELAG_SMART_MODE_GROUPBOX = gui.Groupbox( MSC_PART_2_REF, "Fakelag Smart Mode", 0, 1069, 213, 205 );
 
 local FAKELAG_EXTRA = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_extra_enable", "Enable", 0 );
+local FAKELAG_ON_SLOWWALK = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_slowwalk", "Disable On Slow Walk", 0 );
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_knife", "Disable On Knife", 0 );
 local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_taser", "Disable On Taser", 0 );
 local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_EXTRA_GROUPBOX, "lua_fakelag_grenade", "Disable On Grenade", 0 );
@@ -93,7 +95,12 @@ local function FakelagOnPing()
 			end
 			FakelagOnPingAmount = math.floor( FAKELAG_ON_PING_AMOUNT:GetValue() )
 
-			if Ping >= FakelagOnPingAmount then
+			if ( Ping >= FakelagOnPingAmount ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -103,6 +110,32 @@ local function FakelagOnPing()
 	end
 
 end		
+
+local function FakelagOnSlowWalk()
+
+	if FAKELAG_EXTRA:GetValue() then
+
+		if GetValue( "msc_slowwalk" ) ~= 0 then
+			SlowWalkFakelagOff = input.IsButtonDown( GetValue( "msc_slowwalk" ) )
+		end
+
+		if FAKELAG_ON_SLOWWALK:GetValue() and GetValue( "msc_slowwalk" ) ~= 0 then
+			if ( SlowWalkFakelagOff ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) then
+				SetValue( "msc_fakelag_enable", 0 );
+			else
+				SetValue( "msc_fakelag_enable", 1 );
+			end
+		end
+
+	end
+
+end
 
 local function FakelagSmartMode()
 
@@ -149,13 +182,14 @@ local function FakelagSmartMode()
 		end
 
 		if Standing then
-			if FAKELAG_STANDING == 0 or
-			( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
-			( FAKELAG_ON_TASER:GetValue() and Taser ) or
-			( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
-			( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
-			( FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) then
+			if ( FAKELAG_STANDING == 0 ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_SLOWWALK:GetValue() and GetValue( "msc_slowwalk" ) ~= 0 and SlowWalkFakelagOff ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -177,13 +211,14 @@ local function FakelagSmartMode()
 		end
 
 		if Moving then
-			if FAKELAG_MOVING == 0 or
-			( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
-			( FAKELAG_ON_TASER:GetValue() and Taser ) or
-			( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
-			( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
-			( FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) then
+			if ( FAKELAG_MOVING == 0 ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_SLOWWALK:GetValue() and GetValue( "msc_slowwalk" ) ~= 0 and SlowWalkFakelagOff ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -205,13 +240,14 @@ local function FakelagSmartMode()
 		end
 
 		if InAir then
-			if FAKELAG_INAIR == 0 or
-			( FAKELAG_ON_KNIFE:GetValue() and Knife ) or
-			( FAKELAG_ON_TASER:GetValue() and Taser ) or
-			( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
-			( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
-			( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
-			( FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) then
+			if ( FAKELAG_INAIR == 0 ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
+			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_SLOWWALK:GetValue() and GetValue( "msc_slowwalk" ) ~= 0 and SlowWalkFakelagOff ) then
 				SetValue( "msc_fakelag_enable", 0 );
 			else
 				SetValue( "msc_fakelag_enable", 1 );
@@ -254,4 +290,5 @@ client.AllowListener( "item_equip" )
 
 callbacks.Register( "FireGameEvent", "Extra Fakelag Options", FakelagExtra )
 callbacks.Register( "Draw", "Fakelag On Ping", FakelagOnPing )
+callbacks.Register( "Draw", "Fakelag On Slow Walk", FakelagOnSlowWalk )
 callbacks.Register( "Draw", "Fakelag Smart Mode", FakelagSmartMode )
