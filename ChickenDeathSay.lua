@@ -1,4 +1,4 @@
-local MSC_PART_1_REF = gui.Reference( "MISC", "Part 1" );
+local MSC_PART_1_REF = gui.Reference( "MISC", "GENERAL", "Extra" );
 
 local ChickenDeathSay_Checkbox = gui.Checkbox( MSC_PART_1_REF, "lua_chicken_deathsay", "Chicken Death Say", 0 );
 
