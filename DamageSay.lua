@@ -1,6 +1,6 @@
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
+local VIS_MAIN_REF = gui.Reference( "MISC", "GENERAL", "Extra" );
 
-local DamageSay = gui.Checkbox( VIS_MAIN_REF, "lua_damagesay", "Damage Say", 0 );
+local DamageSay = gui.Checkbox( VIS_MAIN_REF, "lua_damagesay", "Log Damage Say", 0 );
 
 hitPlayerName = "";
 hitDmg = "";
