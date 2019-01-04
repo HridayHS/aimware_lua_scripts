@@ -1,4 +1,4 @@
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
+local VIS_MAIN_REF = gui.Reference( "VISUALS", "MISC", "World" );
 
 local FullbrightCheckbox = gui.Checkbox( VIS_MAIN_REF, "lua_fullbright", "Full Bright", 0 );
 
