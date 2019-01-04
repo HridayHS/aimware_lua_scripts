@@ -1,4 +1,4 @@
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
+local VIS_MAIN_REF = gui.Reference( "VISUALS", "Shared" );
 
 local EngineRadarCheckbox = gui.Checkbox( VIS_MAIN_REF, "lua_engineradar", "Engine Radar", 0 );
 
