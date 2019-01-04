@@ -1,14 +1,14 @@
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
+local VIS_MAIN_REF = gui.Reference( "VISUALS", "Shared" );
 
-local AWSniperCrosshair = gui.Checkbox( VIS_MAIN_REF, "lua_snipercrosshair", "Sniper Crosshair", 0 );
+local SniperCrosshairCheckbox = gui.Checkbox( VIS_MAIN_REF, "lua_snipercrosshair", "Sniper Crosshair", 0 );
 
 local function SniperCrosshair()
 
-	if AWSniperCrosshair:GetValue() then
+	if SniperCrosshairCheckbox:GetValue() then
 		if entities.GetLocalPlayer() ~= nil then
 			local LocalPlayerEntity = entities.GetLocalPlayer();
-			local Alive = LocalPlayerEntity:IsAlive();
-			
+
+			local Alive = LocalPlayerEntity:IsAlive();			
 			local isScoped = LocalPlayerEntity:GetPropInt( "m_bIsScoped" );
 	
 			local Thirdperson = gui.GetValue( "vis_thirdperson_dist" );
