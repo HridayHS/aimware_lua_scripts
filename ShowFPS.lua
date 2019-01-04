@@ -1,6 +1,6 @@
 local FPS = 0.0
 
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Main" );
+local VIS_MAIN_REF = gui.Reference( "VISUALS", "Shared" );
 
 local ShowFPS = gui.Checkbox( VIS_MAIN_REF, "lua_showfps", "Show FPS", 0 );
 
