@@ -13,10 +13,10 @@ local function LeftHandKnife()
 		local LocalPlayerEntity = entities.GetLocalPlayer();
 
 		local IsAlive = LocalPlayerEntity:IsAlive();
-		local WeaponID = LocalPlayerEntity:GetWeaponID();
+		local WeaponType = LocalPlayerEntity:GetWeaponType();
 
 		if IsAlive then
-			if WeaponID == 508 then
+			if WeaponType == 0 then
 				client.Command( "cl_righthand 0", true );
 			else
 				client.Command( "cl_righthand 1", true );
