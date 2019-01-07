@@ -7,18 +7,16 @@ local function LeftHandKnife()
 	if LEFT_HAND_KNIFE:GetValue() then
 
 		if entities.GetLocalPlayer() == nil then
-			return
+			return;
 		end
 
 		local LocalPlayerEntity = entities.GetLocalPlayer();
 
-		local Alive = LocalPlayerEntity:IsAlive();
-		local WeaponEntity = LocalPlayerEntity:GetPropEntity( "m_hActiveWeapon" );
+		local IsAlive = LocalPlayerEntity:IsAlive();
+		local WeaponID = LocalPlayerEntity:GetWeaponID();
 
-		if Alive then
-			local Weapon = WeaponEntity:GetClass();
-
-			if Weapon == "CKnife" then
+		if IsAlive then
+			if WeaponID == 508 then
 				client.Command( "cl_righthand 0", true );
 			else
 				client.Command( "cl_righthand 1", true );
