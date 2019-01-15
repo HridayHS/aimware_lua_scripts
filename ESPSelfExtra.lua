@@ -3,7 +3,7 @@ local SetValue = gui.SetValue;
 local VIS_SELF_FILTER_REF = gui.Reference( "VISUALS", "YOURSELF", "Filter" );
 
 local ESP_SELF_EXTRA_COMBOBOX = gui.Combobox( VIS_SELF_FILTER_REF, "lua_filter_self_extra", "When Scoped In", "Off", "Glow Off", "Glow On", "Chams Off", "Chams Off + Glow Off", "Chams Off + Glow On", "Filter Off" );
-local ESP_SELF_EXTRA_CHAMS = gui.Combobox( VIS_SELF_FILTER_REF, "lua_filter_self_chams", "When Scoped Out Chams", "Off", "Color", "Metallic" );
+local ESP_SELF_EXTRA_CHAMS = gui.Combobox( VIS_SELF_FILTER_REF, "lua_filter_self_chams", "When Scoped Out Chams", "Off", "Color", "Metallic", "Flat" );
 local ESP_SELF_EXTRA_GLOW = gui.Combobox( VIS_SELF_FILTER_REF, "lua_filter_self_glow", "When Scoped Out Glow", "Off", "Team Color", "Health Color" );
 
 local function AW_ESP_SELF_EXTRA()
@@ -16,6 +16,8 @@ local function AW_ESP_SELF_EXTRA()
 		CHAMS_VALUE = 1
 	elseif ESP_SELF_EXTRA_CHAMS:GetValue() == 2 then
 		CHAMS_VALUE = 6
+	elseif ESP_SELF_EXTRA_CHAMS:GetValue() == 3 then
+		CHAMS_VALUE = 7
 	end
 	if ESP_SELF_EXTRA_GLOW:GetValue() == 0 then
 		GLOW_VALUE = 0
