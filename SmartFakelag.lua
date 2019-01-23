@@ -264,9 +264,9 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local Version = "3"
+local Version = "3.0"
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
-local SmartFakelag_Updater = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/updater/SmartFakelag.txt"
+local SmartFakelag_Updater = "https://pastebin.com/raw/jjFuuC16"
 
 local UpdateFound = false;
 local UpdateDownloaded = false;
