@@ -264,7 +264,7 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local Version = "3.0"
+local Version = "3"
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
 local SmartFakelag_Updater = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/updater/SmartFakelag.txt"
 
@@ -276,11 +276,25 @@ local function Updater()
 
 	local ScriptName = GetScriptName();
 
-	if ( UpdateFound and not UpdateDownloaded ) then
+	if not UpdateVersionCheck then
+		if GetValue( "lua_allow_http" ) == false then
+			draw.Color( 255, 0, 0, 255 );
+			draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
+			return
+		end
+	
+		UpdateVersionCheck = true
+		local UpdateVersion = http.Get( SmartFakelag_Updater );
+		if UpdateVersion ~= Version then
+			UpdateFound = true
+		end
+	end
+	
+	if UpdateFound and UpdateDownloaded == false then
 		if GetValue( "lua_allow_cfg" ) == false then
-			draw.Color(255, 0, 0, 255);
-			draw.Text(0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update.");
-			return;
+			draw.Color( 255, 0, 0, 255 );
+			draw.Text( 0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update." );
+			return
 		else
 			local Update = http.Get( SmartFakelag_Script );
 			local Script = file.Open( ScriptName, "w" );
@@ -290,24 +304,11 @@ local function Updater()
 			UpdateDownloaded = true;
 		end
 	end
-
+	
 	if UpdateDownloaded then
-		draw.Color(255, 0, 0, 255);
-		draw.Text(0, 0, "[SmartFakelag] Script has been updated, reload this script");
-		return;
-	end
-
-	if not UpdateVersionCheck then
-		if GetValue( "lua_allow_http" ) == false then
-			draw.Color( 255, 0, 0, 255 );
-			draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
-			return;
-		end
-
-		local UpdateVersion = http.Get( SmartFakelag_Updater );
-		if UpdateVersion ~= Version then
-			UpdateFound = true;
-		end
+		draw.Color( 255, 0, 0, 255 );
+		draw.Text( 0, 0, "[SmartFakelag] Script has been updated, reload this script" );
+		return
 	end
 
 end
