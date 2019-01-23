@@ -10,7 +10,7 @@ local FAKELAG_ON_KNIFE = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_knife", "Di
 local FAKELAG_ON_TASER = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_taser", "Disable On Taser", 0 );
 local FAKELAG_ON_GRENADE = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_grenade", "Disable On Grenade", 0 );
 local FAKELAG_ON_PISTOL = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_pistol", "Disable On Pistol", 0 );
-local FAKELAG_ON_REVOLVER = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_revolver", "Disable On R8/Deagle", 0 );
+local FAKELAG_ON_REVOLVER = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_revolver", "Disable On Revolver", 0 );
 local FAKELAG_ON_PING = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_ping", "Disable Fakelag On Ping", 0 )
 local FAKELAG_ON_PING_AMOUNT = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_ping_amount", "Amount", 120, 0, 1000 )
 
@@ -26,48 +26,27 @@ local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakela
 
 local Ping = 0
 
-local function FakelagExtra( Event )
+local function GetWeapon()
+
+	if entities.GetLocalPlayer() == nil then
+		return;
+	end
+
+	local LocalPlayerEntity = entities.GetLocalPlayer();
+	local WeaponID = LocalPlayerEntity:GetWeaponID();
+	local WeaponType = LocalPlayerEntity:GetWeaponType();
+
+	if WeaponType == 0 then Knife = true else Knife = false end
+	if ( WeaponType == 1 and WeaponID ~= 64 ) then Pistol = true else Pistol = false end
+	if WeaponID == 31 then Taser = true else Taser = false end
+	if WeaponType == 9 then Grenade = true else Grenade = false end
+	if WeaponID == 64 then Revolver = true else Revolver = false end
+
+end
+
+local function FakelagExtra()
 
 	if FAKELAG_EXTRA:GetValue() then
-
-		if ( Event:GetName() ~= "item_equip" ) then
-			return;
-		end
-
-		local ME = client.GetLocalPlayerIndex();
-		local INT_UID = Event:GetInt( "userid" );
-		local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
-
-		local WepType = Event:GetInt( "weptype" );
-		local ITEM = Event:GetString( "item" );
-
-		if ME == PlayerIndex then
-			if WepType == 0 then
-				Knife = true
-			else
-				Knife = false
-			end
-			if WepType == 1 then
-				Pistol = true
-			else
-				Pistol = false
-			end
-			if WepType == 8 then
-				Taser = true
-			else
-				Taser = false
-			end
-			if WepType == 9 then
-				Grenade = true
-			else
-				Grenade = false
-			end
-			if ITEM == "deagle" then
-				Revolver = true
-			else
-				Revolver = false
-			end
-		end
 		
 		if ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or -- On Knife
 		   ( FAKELAG_ON_TASER:GetValue() and Taser ) or -- On Taser
@@ -78,7 +57,7 @@ local function FakelagExtra( Event )
 		else
 			SetValue( "msc_fakelag_enable", 1 );
 		end
-		
+
 	end
 
 end
@@ -284,9 +263,8 @@ local function FakelagSmartMode()
 
 end
 
-client.AllowListener( "item_equip" )
-
-callbacks.Register( "FireGameEvent", "Extra Fakelag Options", FakelagExtra )
-callbacks.Register( "Draw", "Fakelag On Ping", FakelagOnPing )
-callbacks.Register( "Draw", "Fakelag On Slow Walk", FakelagOnSlowWalk )
-callbacks.Register( "Draw", "Fakelag Smart Mode", FakelagSmartMode )
+callbacks.Register( "Draw", GetWeapon )
+callbacks.Register( "Draw", FakelagExtra )
+callbacks.Register( "Draw", FakelagOnPing )
+callbacks.Register( "Draw", FakelagOnSlowWalk )
+callbacks.Register( "Draw", FakelagSmartMode )
