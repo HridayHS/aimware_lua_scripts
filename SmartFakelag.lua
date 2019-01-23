@@ -264,9 +264,9 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local Version = 3.0
+local Version = "3.0"
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
-local SmartFakelag_Update = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/update/SmartFakelag.txt"
+local SmartFakelag_Updater = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/updater/SmartFakelag.txt"
 
 local UpdateFound = false;
 local UpdateDownloaded = false;
@@ -276,22 +276,11 @@ local function Updater()
 
 	local ScriptName = GetScriptName();
 
-	if GetValue( "lua_allow_http" ) == false then
-		draw.Color( 255, 0, 0, 255 );
-		draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
-		return
-	end
-
-	local UpdateVersion = http.Get( SmartFakelag_Update );
-	if UpdateVersion ~= Version then
-		UpdateFound = true;
-	end
-
 	if ( UpdateFound and not UpdateDownloaded ) then
 		if GetValue( "lua_allow_cfg" ) == false then
 			draw.Color(255, 0, 0, 255);
 			draw.Text(0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update.");
-			return
+			return;
 		else
 			local Update = http.Get( SmartFakelag_Script );
 			local Script = file.Open( ScriptName, "w" );
@@ -305,7 +294,20 @@ local function Updater()
 	if UpdateDownloaded then
 		draw.Color(255, 0, 0, 255);
 		draw.Text(0, 0, "[SmartFakelag] Script has been updated, reload this script");
-		return
+		return;
+	end
+
+	if not UpdateVersionCheck then
+		if GetValue( "lua_allow_http" ) == false then
+			draw.Color( 255, 0, 0, 255 );
+			draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
+			return;
+		end
+
+		local UpdateVersion = http.Get( SmartFakelag_Updater );
+		if UpdateVersion ~= Version then
+			UpdateFound = true;
+		end
 	end
 
 end
