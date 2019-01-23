@@ -276,15 +276,13 @@ local function Updater()
 
 	local ScriptName = GetScriptName();
 
-	local Update = http.Get( SmartFakelag_Script );
-	local UpdateVersion = http.Get( SmartFakelag_Update );
-
 	if GetValue( "lua_allow_http" ) == false then
 		draw.Color( 255, 0, 0, 255 );
 		draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
 		return
 	end
 
+	local UpdateVersion = http.Get( SmartFakelag_Update );
 	if UpdateVersion ~= Version then
 		UpdateFound = true;
 	end
@@ -295,6 +293,7 @@ local function Updater()
 			draw.Text(0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update.");
 			return
 		else
+			local Update = http.Get( SmartFakelag_Script );
 			local Script = file.Open( ScriptName, "w" );
 			Script:Write( Update );
 			Script:Close();
