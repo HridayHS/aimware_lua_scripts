@@ -263,8 +263,59 @@ local function FakelagSmartMode()
 
 end
 
+-- Updater
+local Version = 3.0
+local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
+local SmartFakelag_Update = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/update/SmartFakelag.txt"
+
+local UpdateFound = false;
+local UpdateDownloaded = false;
+local UpdateVersionCheck = false;
+
+local function Updater()
+
+	local ScriptName = GetScriptName();
+
+	local Update = http.Get( SmartFakelag_Script );
+	local UpdateVersion = http.Get( SmartFakelag_Update );
+
+	if GetValue( "lua_allow_http" ) == false then
+		draw.Color( 255, 0, 0, 255 );
+		draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
+		return
+	end
+
+	if UpdateVersion ~= Version then
+		UpdateFound = true;
+	end
+
+	if ( UpdateFound and not UpdateDownloaded ) then
+		if GetValue( "lua_allow_cfg" ) == false then
+			draw.Color(255, 0, 0, 255);
+			draw.Text(0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update.");
+			return
+		else
+			local Script = file.Open( ScriptName, "w" );
+			Script:Write( Update );
+			Script:Close();
+			UpdateFound = false;
+			UpdateDownloaded = true;
+		end
+	end
+
+	if UpdateDownloaded then
+		draw.Color(255, 0, 0, 255);
+		draw.Text(0, 0, "[SmartFakelag] Script has been updated, reload this script");
+		return
+	end
+
+end
+
 callbacks.Register( "Draw", GetWeapon )
 callbacks.Register( "Draw", FakelagExtra )
 callbacks.Register( "Draw", FakelagOnPing )
 callbacks.Register( "Draw", FakelagOnSlowWalk )
 callbacks.Register( "Draw", FakelagSmartMode )
+
+-- Updater
+callbacks.Register( "Draw", Updater )
