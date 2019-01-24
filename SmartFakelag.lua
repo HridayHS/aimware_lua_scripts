@@ -16,7 +16,6 @@ local FAKELAG_ON_PING_AMOUNT = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_ping_am
 
 local FAKELAG_SMART_MODE_TEXT = gui.Text( MSC_FAKELAG_REF, "Fakelag Smart Mode" )
 local FAKELAG_SMART_MODE = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_smartmode_enable", "Enable", 0 );
-local FAKELAG_SMART_MODE_FACTOR = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_smartfactor", "Smart Mode Factor", 0 );
 local FAKELAG_SMART_MODE_STANDING = gui.Combobox( MSC_FAKELAG_REF, "lua_fakelag_standing", "While Standing", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
 local FAKELAG_SMART_MODE_STANDING_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_standing_factor", "Factor", 15, 1, 15 );
 local FAKELAG_SMART_MODE_MOVING = gui.Combobox( MSC_FAKELAG_REF, "lua_fakelag_moving", "While Moving", "Off", "Factor", "Switch", "Adaptive", "Random", "Peek", "Rapid Peek" );
@@ -25,6 +24,7 @@ local FAKELAG_SMART_MODE_INAIR = gui.Combobox( MSC_FAKELAG_REF, "lua_fakelag_ina
 local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_inair_factor", "Factor", 15, 1, 15 );
 
 local Ping = 0
+local Time = 0
 
 local function GetWeapon()
 
@@ -153,12 +153,13 @@ local function FakelagSmartMode()
 			-- In Air
 			if fFlags == 256 or fFlags == 262 then
 				InAir = true
+				Time = globals.CurTime();
 			else
 				InAir = false
 			end
 		end
 
-		if Standing then
+		if Standing and Time + 0.2 < globals.CurTime() then
 			if ( FAKELAG_STANDING == 0 ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
@@ -171,23 +172,14 @@ local function FakelagSmartMode()
 			else
 				SetValue( "msc_fakelag_enable", 1 );
 			end
-			if FAKELAG_STANDING == 1 then
-				STANDING_MODE = 0
-			elseif FAKELAG_STANDING == 2 then
-				STANDING_MODE = 1
-			elseif FAKELAG_STANDING == 3 then
-				STANDING_MODE = 2
-			elseif FAKELAG_STANDING == 4 then
-				STANDING_MODE = 3
-			elseif FAKELAG_STANDING == 5 then
-				STANDING_MODE = 4
-			elseif FAKELAG_STANDING == 6 then
-				STANDING_MODE = 5
+			if FAKELAG_STANDING > 0 then
+				STANDING_MODE = ( FAKELAG_STANDING - 1 )
 			end
 			SetValue( "msc_fakelag_mode", STANDING_MODE );
+			SetValue( "msc_fakelag_value", FAKELAG_STANDING_FACTOR );
 		end
 
-		if Moving then
+		if Moving and Time + 0.2 < globals.CurTime() then
 			if ( FAKELAG_MOVING == 0 ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
@@ -200,20 +192,11 @@ local function FakelagSmartMode()
 			else
 				SetValue( "msc_fakelag_enable", 1 );
 			end
-			if FAKELAG_MOVING == 1 then
-				MOVING_MODE = 0
-			elseif FAKELAG_MOVING == 2 then
-				MOVING_MODE = 1
-			elseif FAKELAG_MOVING == 3 then
-				MOVING_MODE = 2
-			elseif FAKELAG_MOVING == 4 then
-				MOVING_MODE = 3
-			elseif FAKELAG_MOVING == 5 then
-				MOVING_MODE = 4
-			elseif FAKELAG_MOVING == 6 then
-				MOVING_MODE = 5
+			if FAKELAG_MOVING > 0 then
+				MOVING_MODE = ( FAKELAG_MOVING - 1 )
 			end
 			SetValue( "msc_fakelag_mode", MOVING_MODE );
+			SetValue( "msc_fakelag_value", FAKELAG_MOVING_FACTOR );
 		end
 
 		if InAir then
@@ -229,34 +212,11 @@ local function FakelagSmartMode()
 			else
 				SetValue( "msc_fakelag_enable", 1 );
 			end
-			if FAKELAG_INAIR == 1 then
-				INAIR_MODE = 0
-			elseif FAKELAG_INAIR == 2 then
-				INAIR_MODE = 1
-			elseif FAKELAG_INAIR == 3 then
-				INAIR_MODE = 2
-			elseif FAKELAG_INAIR == 4 then
-				INAIR_MODE = 3
-			elseif FAKELAG_INAIR == 5 then
-				INAIR_MODE = 4
-			elseif FAKELAG_INAIR == 6 then
-				INAIR_MODE = 6
+			if FAKELAG_INAIR > 0 then
+				INAIR_MODE = ( FAKELAG_INAIR - 1 )
 			end
 			SetValue( "msc_fakelag_mode", INAIR_MODE );
-		end
-
-		if FAKELAG_SMART_MODE_FACTOR:GetValue() then
-			if Standing then
-				SetValue( "msc_fakelag_value", FAKELAG_STANDING_FACTOR );
-			end
-
-			if Moving then
-				SetValue( "msc_fakelag_value", FAKELAG_MOVING_FACTOR );
-			end
-
-			if InAir then
-				SetValue( "msc_fakelag_value", FAKELAG_INAIR_FACTOR );
-			end
+			SetValue( "msc_fakelag_value", FAKELAG_INAIR_FACTOR );
 		end
 
 	end
@@ -264,7 +224,7 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local Version = "3.0"
+local Version = "3.5"
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
 local SmartFakelag_Updater = "https://pastebin.com/raw/jjFuuC16"
 
