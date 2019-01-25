@@ -1,6 +1,8 @@
 local SetValue = gui.SetValue;
 local GetValue = gui.GetValue;
 
+local Version = "4"
+
 local MSC_FAKELAG_REF = gui.Reference( "MISC", "ENHANCEMENT", "Fakelag" );
 
 local FAKELAG_EXTRA_TEXT = gui.Text( MSC_FAKELAG_REF, "Fakelag Extra" );
@@ -224,36 +226,39 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local Version = "3.5"
+local SmartFakelagUpdater_Checkbox = gui.Checkbox( gui.Reference( "SETTINGS", "Lua Scripts" ), "lua_fakelag_autoupdate", "Auto updates SmartFakelag lua", 1 );
+
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
 local SmartFakelag_Updater = "https://pastebin.com/raw/jjFuuC16"
 
 local UpdateFound = false;
-local UpdateDownloaded = false;
-local UpdateVersionCheck = false;
+local UpdateFinished = false;
+local UpdateCheck = false;
+
+local ScriptName = GetScriptName();
 
 local function Updater()
 
-	local ScriptName = GetScriptName();
+if SmartFakelagUpdater_Checkbox:GetValue() then
 
-	if not UpdateVersionCheck then
-		if GetValue( "lua_allow_http" ) == false then
+	if not UpdateCheck then
+		if not GetValue( "lua_allow_http" ) then
 			draw.Color( 255, 0, 0, 255 );
-			draw.Text( 0, 0, "[SmartFakelag] Enable 'Allow Lua HTTP Connections' in Settings tab to use this script." );
+			draw.Text( 0, 0, "[SmartFakelag Lua] Enable 'Allow internet connections from lua' in settings tab to allow auto update to work." );
 			return
 		end
 	
-		UpdateVersionCheck = true
+		UpdateCheck = true
 		local UpdateVersion = http.Get( SmartFakelag_Updater );
-		if UpdateVersion ~= Version then
+		if ( UpdateVersion ~= Version ) then
 			UpdateFound = true
 		end
 	end
 	
-	if UpdateFound and UpdateDownloaded == false then
-		if GetValue( "lua_allow_cfg" ) == false then
+	if UpdateFound and not UpdateFinished then
+		if not GetValue( "lua_allow_cfg" ) then
 			draw.Color( 255, 0, 0, 255 );
-			draw.Text( 0, 0, "[SamrtFakelag] An update is available, enable 'Allow Script/Config editing from Lua' in Settings tab to download the update." );
+			draw.Text( 0, 0, "[SamrtFakelag Lua] An update is available, enable 'Allow script/config editing from lua' in settings tab to download the update." );
 			return
 		else
 			local Update = http.Get( SmartFakelag_Script );
@@ -261,15 +266,17 @@ local function Updater()
 			Script:Write( Update );
 			Script:Close();
 			UpdateFound = false;
-			UpdateDownloaded = true;
+			UpdateFinished = true;
 		end
 	end
 	
-	if UpdateDownloaded then
+	if UpdateFinished then
 		draw.Color( 255, 0, 0, 255 );
-		draw.Text( 0, 0, "[SmartFakelag] Script has been updated, reload this script" );
+		draw.Text( 0, 0, "[SmartFakelag Lua] Script has been updated to latest version, reload the script" );
 		return
 	end
+
+end
 
 end
 
