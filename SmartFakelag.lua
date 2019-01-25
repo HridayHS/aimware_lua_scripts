@@ -226,7 +226,7 @@ local function FakelagSmartMode()
 end
 
 -- Updater
-local SmartFakelagUpdater_Checkbox = gui.Checkbox( gui.Reference( "SETTINGS", "Lua Scripts" ), "lua_fakelag_autoupdate", "Auto updates SmartFakelag lua", 1 );
+local SmartFakelagUpdater_Checkbox = gui.Checkbox( gui.Reference( "SETTINGS", "Lua Scripts" ), "lua_fakelag_autoupdate", "Auto-update SmartFakelag lua", 1 );
 
 local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
 local SmartFakelag_Updater = "https://pastebin.com/raw/jjFuuC16"
