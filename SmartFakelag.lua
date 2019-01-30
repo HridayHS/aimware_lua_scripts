@@ -1,7 +1,7 @@
 local SetValue = gui.SetValue;
 local GetValue = gui.GetValue;
 
-local Version = "4"
+local Version = "4.5"
 
 local MSC_FAKELAG_REF = gui.Reference( "MISC", "ENHANCEMENT", "Fakelag" );
 
@@ -31,14 +31,14 @@ local Time = 0
 local function GetWeapon()
 
 	if entities.GetLocalPlayer() == nil then
-		return;
+		return
 	end
 
 	local LocalPlayerEntity = entities.GetLocalPlayer();
 	local WeaponID = LocalPlayerEntity:GetWeaponID();
 	local WeaponType = LocalPlayerEntity:GetWeaponType();
 
-	if WeaponType == 0 then Knife = true else Knife = false end
+	if ( WeaponType == 0 and WeaponID ~= 31 ) then Knife = true else Knife = false end
 	if ( WeaponType == 1 and WeaponID ~= 64 ) then Pistol = true else Pistol = false end
 	if WeaponID == 31 then Taser = true else Taser = false end
 	if WeaponType == 9 then Grenade = true else Grenade = false end
