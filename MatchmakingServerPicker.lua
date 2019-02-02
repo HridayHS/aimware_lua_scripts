@@ -27,37 +27,37 @@ local MMServerList_WND = gui.Window( "lua_wnd_matchmaking_serverlist", "Matchmak
 
 -- Africa
 local MMServerList_Africa = gui.Groupbox( MMServerList_WND, "Africa", 18, 16, 235, 54 );
-local MMServerList_Africa_ServerList = gui.Text( MMServerList_Africa, "Johannesburg (AF South) -> jnb" );
+local MMServerList_Africa_ServerList = gui.Text( MMServerList_Africa, "Johannesburg (Africa South) -> jnb" );
 
 -- Asia
 local MMServerList_Asia = gui.Groupbox( MMServerList_WND, "Asia", 18, 88, 235, 100 );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Beijing (AS North-East) -> tsnt" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Bombay (AS South) -> bom" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Cangzhou (AS North-East) -> pwj" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Chennai (AS South) -> maa" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Dongcheng Qu (AS Central) -> pwu" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Dubai (AS South-East) -> dxb" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 1 (AS East) -> canm" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 2 (AS East) -> cant" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 3 (AS East) -> canu" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 4 (AS East) -> pwg" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Hong Kong (AS East) -> hkg" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Hongshan Qu (AS South-East) -> pww" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Huangpu Qu (AS East) -> pwt" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Manilla (AS South-East) -> man" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Qingcheng (AS East) -> can" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Shanghai 1 (AS East) -> sha" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Shanghai 2 (AS East) -> shau" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Singapore (AS South-East) -> sgp" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tianjin 1 (AS North-East) -> tsnm" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tianjin 2 (AS North-East) -> tsnu" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tokyo 1 (AS East) -> tyo" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tokyo 2 (AS East) -> tyo1" );
-local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Xianghe Xian (AS North-East) -> tsn" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Beijing (Asia North-East) -> tsnt" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Bombay (India West) -> bom" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Cangzhou (Asia North-East) -> pwj" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Chennai (India South-East) -> maa" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Dongcheng Qu (Asia Central) -> pwu" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Dubai (Middle-East) -> dxb" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 1 (Asia East) -> canm" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 2 (Asia East) -> cant" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 3 (Asia East) -> canu" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Guangzhou 4 (Asua East) -> pwg" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Hong Kong (Asia East) -> hkg" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Hongshan Qu (Asia South-East) -> pww" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Huangpu Qu (Asia East) -> pwt" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Manilla (Asia South-East) -> man" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Qingcheng (Asia East) -> can" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Shanghai 1 (Asia East) -> sha" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Shanghai 2 (Asia East) -> shau" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Singapore (Asia South-East) -> sgp" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tianjin 1 (Asia North-East) -> tsnm" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tianjin 2 (Asia North-East) -> tsnu" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tokyo 1 (Asia East) -> tyo" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Tokyo 2 (Asia East) -> tyo1" );
+local MMServerList_Asia_ServerList = gui.Text( MMServerList_Asia, "Xianghe Xian (Asia North-East) -> tsn" );
 
 -- Australia
 local MMServerList_Australia = gui.Groupbox( MMServerList_WND, "Australia", 18, 208, 235, 54 );
-local MMServerList_Australia_ServerList = gui.Text( MMServerList_Australia, "Sydney (AU South-East) -> syd" );
+local MMServerList_Australia_ServerList = gui.Text( MMServerList_Australia, "Sydney (Australia South-East) -> syd" );
 
 -- Europe
 local MMServerList_Europe = gui.Groupbox( MMServerList_WND, "Europe", 18, 280, 235, 100 );
