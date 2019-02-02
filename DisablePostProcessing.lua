@@ -1,4 +1,4 @@
-local DisablePostProcessing = gui.Checkbox( gui.Reference( "MISC", "GENERAL", "Extra" );, "lua_disablepostprocess", "Disable Post Processing", 0 );
+local DisablePostProcessing = gui.Checkbox( gui.Reference( "MISC", "GENERAL", "Extra" ), "lua_disablepostprocess", "Disable Post Processing", 0 );
 
 local function PostProcessing()
 
