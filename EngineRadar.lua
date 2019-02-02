@@ -1,6 +1,4 @@
-local VIS_MAIN_REF = gui.Reference( "VISUALS", "Shared" );
-
-local EngineRadarCheckbox = gui.Checkbox( VIS_MAIN_REF, "lua_engineradar", "Engine Radar", 0 );
+local EngineRadarCheckbox = gui.Checkbox( gui.Reference( "VISUALS", "Shared" ), "lua_engineradar", "View enemies on radar", 0 );
 
 local function EngineRadar()
 
@@ -16,4 +14,4 @@ local function EngineRadar()
 	
 end
 
-callbacks.Register( "Draw", "Engine Radar", EngineRadar )
+callbacks.Register( "Draw", EngineRadar )
