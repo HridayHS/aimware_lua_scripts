@@ -10,4 +10,4 @@ local function PostProcessing()
 
 end
 
-callbacks.Register( "Draw", "Disable Post Processing", PostProcessing )
+callbacks.Register( "Draw", PostProcessing )
