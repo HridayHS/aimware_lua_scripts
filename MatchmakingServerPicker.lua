@@ -23,7 +23,7 @@ callbacks.Register( "Draw", MMServerPIcker )
 
 local MM_ServerList_WindowCheckbox = gui.Checkbox( MSC_GENERAL_MAIN_REF, "lua_matchmaking_serverlist", "Matchmaking Server List", 0 );
 
-local MMServerList_WND = gui.Window( "lua_wnd_matchmaking_serverlist", "Matchmaking Server List", 8, 0, 271, 670 );
+local MMServerList_WND = gui.Window( "lua_wnd_matchmaking_serverlist", "Matchmaking Server List", 0, 0, 271, 670 );
 
 -- Africa
 local MMServerList_Africa = gui.Groupbox( MMServerList_WND, "Africa", 18, 16, 235, 54 );
@@ -91,10 +91,18 @@ local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica
 local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica, "Sao Paulo 2 (SA East) -> ggru" );
 local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica, "Santiago (SA South-West) -> scl" );
 
+local WindowToggle = 1;
+
 local function MMServerList()
 
+	local MenuKey = gui.GetValue( "msc_menutoggle" );
+
+	if input.IsButtonPressed( MenuKey ) then
+		WindowToggle = WindowToggle == 0 and 1 or 0
+	end
+	
 	if MM_ServerList_WindowCheckbox:GetValue() then
-		MMServerList_WND:SetActive(1)
+		MMServerList_WND:SetActive(WindowToggle);
 	else
 		MMServerList_WND:SetActive(0)
 	end
