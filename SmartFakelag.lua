@@ -1,7 +1,7 @@
 local SetValue = gui.SetValue;
 local GetValue = gui.GetValue;
 
-local Version = "4.5"
+local Version = "5"
 
 local MSC_FAKELAG_REF = gui.Reference( "MISC", "ENHANCEMENT", "Fakelag" );
 
@@ -28,7 +28,7 @@ local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakela
 local Ping = 0
 local Time = 0
 
-local function GetWeapon()
+callbacks.Register( 'Draw',  function()
 
 	if entities.GetLocalPlayer() == nil then
 		return
@@ -45,6 +45,7 @@ local function GetWeapon()
 	if WeaponID == 64 then Revolver = true else Revolver = false end
 
 end
+)
 
 local function FakelagExtra()
 
@@ -225,66 +226,7 @@ local function FakelagSmartMode()
 
 end
 
--- Updater
-local SmartFakelagUpdater_Checkbox = gui.Checkbox( gui.Reference( "SETTINGS", "Lua Scripts" ), "lua_fakelag_autoupdate", "Auto-update SmartFakelag lua", 1 );
-
-local SmartFakelag_Script = "https://raw.githubusercontent.com/HridayHS/aimware_lua_scripts/master/SmartFakelag.lua"
-local SmartFakelag_Updater = "https://pastebin.com/raw/jjFuuC16"
-
-local UpdateFound = false;
-local UpdateFinished = false;
-local UpdateCheck = false;
-
-local ScriptName = GetScriptName();
-
-local function Updater()
-
-if SmartFakelagUpdater_Checkbox:GetValue() then
-
-	if not UpdateCheck then
-		if not GetValue( "lua_allow_http" ) then
-			draw.Color( 255, 0, 0, 255 );
-			draw.Text( 0, 0, "[SmartFakelag Lua] Enable 'Allow internet connections from lua' in settings tab to allow auto update to work." );
-			return
-		end
-	
-		UpdateCheck = true
-		local UpdateVersion = http.Get( SmartFakelag_Updater );
-		if ( UpdateVersion ~= Version ) then
-			UpdateFound = true
-		end
-	end
-	
-	if UpdateFound and not UpdateFinished then
-		if not GetValue( "lua_allow_cfg" ) then
-			draw.Color( 255, 0, 0, 255 );
-			draw.Text( 0, 0, "[SamrtFakelag Lua] An update is available, enable 'Allow script/config editing from lua' in settings tab to download the update." );
-			return
-		else
-			local Update = http.Get( SmartFakelag_Script );
-			local Script = file.Open( ScriptName, "w" );
-			Script:Write( Update );
-			Script:Close();
-			UpdateFound = false;
-			UpdateFinished = true;
-		end
-	end
-	
-	if UpdateFinished then
-		draw.Color( 255, 0, 0, 255 );
-		draw.Text( 0, 0, "[SmartFakelag Lua] Script has been updated to latest version, reload the script" );
-		return
-	end
-
-end
-
-end
-
-callbacks.Register( "Draw", GetWeapon )
-callbacks.Register( "Draw", FakelagExtra )
-callbacks.Register( "Draw", FakelagOnPing )
-callbacks.Register( "Draw", FakelagOnSlowWalk )
-callbacks.Register( "Draw", FakelagSmartMode )
-
--- Updater
-callbacks.Register( "Draw", Updater )
+callbacks.Register( 'Draw', FakelagExtra )
+callbacks.Register( 'Draw', FakelagOnPing )
+callbacks.Register( 'Draw', FakelagOnSlowWalk )
+callbacks.Register( 'Draw', FakelagSmartMode )
