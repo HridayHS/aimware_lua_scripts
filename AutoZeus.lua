@@ -1,50 +1,70 @@
 local SetValue = gui.SetValue;
 
-local LEGIT_AIMBOT_REF = gui.Reference( "LEGIT", "Aimbot" );
+local LGT_EXTRA_REF = gui.Reference( "LEGIT", "Extra" );
 
-local AWAutoZeus = gui.Checkbox( LEGIT_AIMBOT_REF, "lua_lbot_autozeus", "Auto Zeus", 0 );
+local Auto_Zeus = gui.Combobox( LGT_EXTRA_REF, "lua_autozeus", "Auto Zeus", "Off", "Legitbot", "Ragebot" );
 
-local function AutoZeus( Event )
+callbacks.Register( 'Draw',  function()
 
-	if gui.GetValue("lbot_active") == true then
-		
-		if AWAutoZeus:GetValue() then
-		
-			if ( Event:GetName() ~= "item_equip" ) then
-				return;
+	if entities.GetLocalPlayer() == nil then
+		return
+	end
+
+	local LocalPlayerEntity = entities.GetLocalPlayer();
+	local WeaponID = LocalPlayerEntity:GetWeaponID();
+
+	if WeaponID == 31 then 
+		Taser = true
+	else
+		Taser = false
+	end
+
+end
+)
+
+local function AutoZeus()
+
+	if not gui.GetValue("lbot_active") then
+		return
+	end
+
+	if Auto_Zeus:GetValue() == 0 then
+		return
+	end
+
+	if Taser then
+		if Auto_Zeus:GetValue() == 1 then
+			SetValue( "rbot_active", 0 )
+			SetValue( "lbot_trg_enable", 1 )
+			SetValue( "lbot_trg_autofire", 1 )
+			SetValue( "lbot_trg_key", 0 )
+			SetValue( "lbot_trg_hitchance", 80 )
+			SetValue( "lbot_trg_mode", 3 )
+			SetValue( "lbot_trg_delay", 0 )
+			SetValue( "lbot_trg_burst", 0 )
+			SetValue( "lbot_trg_throughsmoke", 0 )
+		elseif Auto_Zeus:GetValue() == 2 then
+			SetValue( "lbot_trg_enable", 0 )
+			SetValue( "rbot_taser_hitchance", 80 )
+			SetValue( "rbot_active", 1 )
+			SetValue( "rbot_enable", 1 )
+			SetValue( "rbot_fov", 15 )
+			SetValue( "rbot_speedlimit", 1 )
+			SetValue( "rbot_silentaim", 1 )
+			if ( gui.GetValue( "lbot_positionadjustment" ) > 0 ) then
+				SetValue( "rbot_positionadjustment", 5 )
+			else
+				SetValue( "rbot_positionadjustment", 0 )
 			end
-
-			local ME = client.GetLocalPlayerIndex();
-			local INT_UID = Event:GetInt( "userid" );
-			local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
-
-			local WepType = Event:GetInt( "weptype" );
-			local Item = Event:GetString( "item" );
-
-			if ( ME == PlayerIndex ) then
-				if ( Item == "taser" ) then
-					SetValue("rbot_active", 1);
-					SetValue("rbot_enable", 1);
-					SetValue("rbot_fov", 15);
-					SetValue("rbot_speedlimit", 1);
-					SetValue("rbot_silentaim", 0);
-					if ( gui.GetValue( "lbot_positionadjustment" ) > 0 ) then
-						SetValue("rbot_positionadjustment", 5)
-					else
-						SetValue("rbot_positionadjustment", 0)
-					end
-				else
-					SetValue("rbot_active", 0);
-				end
-
-			end
-
 		end
-
+	else
+		if Auto_Zeus:GetValue() == 1 then
+			SetValue( "lbot_trg_enable", 0 )
+		elseif Auto_Zeus:GetValue() == 2 then
+			SetValue( "rbot_active", 0 )
+		end
 	end
 
 end
 
-client.AllowListener( "item_equip" )
-
-callbacks.Register( "FireGameEvent", "AutoZeus", AutoZeus )
+callbacks.Register( 'Draw', AutoZeus )
