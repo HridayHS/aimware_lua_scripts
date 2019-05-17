@@ -20,7 +20,6 @@ local Autobuy_Flashbang = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_
 local Autobuy_Decoy = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_decoy", "Decoy", 0 );
 
 local Money = 0
-
 local function LocalPlayerMoney()
 	if Autobuy_Enable:GetValue() then
 		if entities.GetLocalPlayer() ~= nil then
@@ -28,134 +27,133 @@ local function LocalPlayerMoney()
 		end
 	end
 end
+callbacks.Register( 'Draw', LocalPlayerMoney )
 
-local function Autobuy( Event )
+client.AllowListener( "player_spawn" )
+client.AllowListener( "round_prestart" )
+callbacks.Register( 'FireGameEvent', function( Event )
+
+	if Autobuy_Enable:GetValue() ~= true then
+		return
+	end
 
 	local PrimaryWeapon = Autobuy_PrimaryWeapon:GetValue()
 	local SecondaryWeapon = Autobuy_SecondaryWeapon:GetValue()
 	local Armor = Autobuy_Armor:GetValue()
 
-	if Autobuy_Enable:GetValue() then
-
+	if ( client.GetConVar( "game_type" ) == "1" and client.GetConVar( "game_mode" ) == "2" ) then -- Deathmatch mode
 		if Event:GetName() ~= "player_spawn" then
-			return;
+			return
 		end
 
 		local INT_UID = Event:GetInt( "userid" );
 		local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
+
+		if client.GetLocalPlayerIndex() ~= PlayerIndex then
+			return
+		end
 		
-		if client.GetLocalPlayerIndex() == PlayerIndex then
-			ME = true
-		else
-			ME = false
+		-- Primary Weapon
+		if PrimaryWeapon == 1 then client.Command( "buy scar20", true ); -- Auto
+		elseif PrimaryWeapon == 2 then client.Command( "buy ssg08", true ); -- Scout
+		elseif PrimaryWeapon == 3 then client.Command( "buy awp", true ); -- AWP
+		elseif PrimaryWeapon == 4 then client.Command( "buy ak47", true ); -- Rifle
+		elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas : Galil AR
+		elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG : SG 553
+		elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); --  MP9 : MAC-10
+		elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 : MP5-SD
+		elseif PrimaryWeapon == 9 then client.Command( "buy ump45", true ); -- UMP-45
+		elseif PrimaryWeapon == 10 then client.Command( "buy p90", true ); -- P90
+		elseif PrimaryWeapon == 11 then client.Command( "buy bizon", true ); -- PP-Bizon
+		elseif PrimaryWeapon == 12 then client.Command( "buy nova", true ); -- Nova
+		elseif PrimaryWeapon == 13 then client.Command( "buy xm1014", true ); -- XM1014
+		elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- MAG-7 : Sawed-Off
+		elseif PrimaryWeapon == 15 then client.Command( "buy m249", true ); -- M249
+		elseif PrimaryWeapon == 16 then client.Command( "buy negev", true ); -- Negev
+		end
+		-- Secondary Weapon
+		if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
+		elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
+		elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
+		elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
+		end
+		-- Taser
+		if Autobuy_Taser:GetValue() then
+			client.Command( "buy taser", true );
+		end
+	else
+		if Event:GetName() ~= "round_prestart" then
+			return
 		end
 
-		if ME and Money == 0 then
-			-- Primary Weapon
-			if PrimaryWeapon == 1 then client.Command( "buy scar20", true ); -- Auto
-			elseif PrimaryWeapon == 2 then client.Command( "buy ssg08", true ); -- Scout
-			elseif PrimaryWeapon == 3 then client.Command( "buy awp", true ); -- AWP
-			elseif PrimaryWeapon == 4 then client.Command( "buy ak47", true ); -- Rifle
-			elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas : Galil AR
-			elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG : SG 553
-			elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); --  MP9 : MAC-10
-			elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 : MP5-SD
-			elseif PrimaryWeapon == 9 then client.Command( "buy ump45", true ); -- UMP-45
-			elseif PrimaryWeapon == 10 then client.Command( "buy p90", true ); -- P90
-			elseif PrimaryWeapon == 11 then client.Command( "buy bizon", true ); -- PP-Bizon
-			elseif PrimaryWeapon == 12 then client.Command( "buy nova", true ); -- Nova
-			elseif PrimaryWeapon == 13 then client.Command( "buy xm1014", true ); -- XM1014
-			elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- MAG-7 : Sawed-Off
-			elseif PrimaryWeapon == 15 then client.Command( "buy m249", true ); -- M249
-			elseif PrimaryWeapon == 16 then client.Command( "buy negev", true ); -- Negev
-			end
-			-- Secondary Weapon
-			if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
-			elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
-			elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
-			elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
-			end
-			-- Taser
-			if Autobuy_Taser:GetValue() then
-				client.Command( "buy taser", true );
-			end
-		elseif ME and Money <= 800 then
-			-- Secondary Weapon
-			if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
-			elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
-			elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
-			elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
-			end
-			-- Taser
-			if Autobuy_Taser:GetValue() then
-				client.Command( "buy taser", true );
-			end
-		elseif ME and Money > 800 then
-			-- Primary Weapon
-			if PrimaryWeapon == 1 then client.Command( "buy scar20", true ); -- Auto
-			elseif PrimaryWeapon == 2 then client.Command( "buy ssg08", true ); -- Scout
-			elseif PrimaryWeapon == 3 then client.Command( "buy awp", true ); -- AWP
-			elseif PrimaryWeapon == 4 then client.Command( "buy ak47", true ); -- Rifle
-			elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas : Galil AR
-			elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG : SG 553
-			elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); --  MP9 : MAC-10
-			elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 : MP5-SD
-			elseif PrimaryWeapon == 9 then client.Command( "buy ump45", true ); -- UMP-45
-			elseif PrimaryWeapon == 10 then client.Command( "buy p90", true ); -- P90
-			elseif PrimaryWeapon == 11 then client.Command( "buy bizon", true ); -- PP-Bizon
-			elseif PrimaryWeapon == 12 then client.Command( "buy nova", true ); -- Nova
-			elseif PrimaryWeapon == 13 then client.Command( "buy xm1014", true ); -- XM1014
-			elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- MAG-7 : Sawed-Off
-			elseif PrimaryWeapon == 15 then client.Command( "buy m249", true ); -- M249
-			elseif PrimaryWeapon == 16 then client.Command( "buy negev", true ); -- Negev
-			end
-			-- Secondary Weapon
-			if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
-			elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
-			elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
-			elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
-			end
-
-			-- Armor
-			if Armor == 1 then client.Command( "buy vest", true );
-			elseif Armor == 2 then client.Command( "buy vesthelm", true );
-			end
-			-- Defuser
-			if Autobuy_Defuser:GetValue() then
-				client.Command( "buy defuser", true );
-			end
-			-- Taser
-			if Autobuy_Taser:GetValue() then
-				client.Command( "buy taser", true );
-			end
-
-			-- HE Grenade
-			if Autobuy_HEGrenade:GetValue() then
-				client.Command( "buy hegrenade", true );
-			end
-			-- Smoke
-			if Autobuy_Smoke:GetValue() then
-				client.Command( "buy smokegrenade", true );
-			end
-			-- Molotov
-			if Autobuy_Molotov:GetValue() then
-				client.Command( "buy molotov", true );
-			end
-			-- Flashbang
-			if Autobuy_Flashbang:GetValue() then
-				client.Command( "buy flashbang", true );
-			end
-			-- Decoy
-			if Autobuy_Decoy:GetValue() then
-				client.Command( "buy decoy", true );
-			end
-		end
-
+if Money <= 800 then
+	-- Secondary Weapon
+	if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
+	elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
+	elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
+	elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
+	end
+	-- Taser
+	if Autobuy_Taser:GetValue() then
+		client.Command( "buy taser", true );
+	end
+else
+	-- Primary Weapon
+	if PrimaryWeapon == 1 then client.Command( "buy scar20", true ); -- Auto
+	elseif PrimaryWeapon == 2 then client.Command( "buy ssg08", true ); -- Scout
+	elseif PrimaryWeapon == 3 then client.Command( "buy awp", true ); -- AWP
+	elseif PrimaryWeapon == 4 then client.Command( "buy ak47", true ); -- Rifle
+	elseif PrimaryWeapon == 5 then client.Command( "buy famas", true ); -- Famas : Galil AR
+	elseif PrimaryWeapon == 6 then client.Command( "buy aug", true ); -- AUG : SG 553
+	elseif PrimaryWeapon == 7 then client.Command( "buy mac10", true ); --  MP9 : MAC-10
+	elseif PrimaryWeapon == 8 then client.Command( "buy mp7", true ); -- MP7 : MP5-SD
+	elseif PrimaryWeapon == 9 then client.Command( "buy ump45", true ); -- UMP-45
+	elseif PrimaryWeapon == 10 then client.Command( "buy p90", true ); -- P90
+	elseif PrimaryWeapon == 11 then client.Command( "buy bizon", true ); -- PP-Bizon
+	elseif PrimaryWeapon == 12 then client.Command( "buy nova", true ); -- Nova
+	elseif PrimaryWeapon == 13 then client.Command( "buy xm1014", true ); -- XM1014
+	elseif PrimaryWeapon == 14 then client.Command( "buy mag7", true ); -- MAG-7 : Sawed-Off
+	elseif PrimaryWeapon == 15 then client.Command( "buy m249", true ); -- M249
+	elseif PrimaryWeapon == 16 then client.Command( "buy negev", true ); -- Negev
 	end
 
+	-- Secondary Weapon
+	if SecondaryWeapon == 1 then client.Command( "buy elite", true ); -- Dual Berettas
+	elseif SecondaryWeapon == 2 then client.Command( "buy p250", true ); -- P250
+	elseif SecondaryWeapon == 3 then client.Command( "buy tec9", true ); -- Five-Seven : CZ75-Auto : Tec-9
+	elseif SecondaryWeapon == 4 then client.Command( "buy deagle", true ); -- Desert Eagle : R8 Revolver
+	end
+
+	-- Armor
+	if Armor == 1 then client.Command( "buy vest", true );
+	elseif Armor == 2 then client.Command( "buy vesthelm", true );
+	end
+
+	-- Utility
+	if Autobuy_Defuser:GetValue() then
+		client.Command( "buy defuser", true ); -- Defuser
+	end
+	if Autobuy_Taser:GetValue() then
+		client.Command( "buy taser", true ); -- Taser
+	end
+
+	-- Grenades
+	if Autobuy_HEGrenade:GetValue() then
+		client.Command( "buy hegrenade", true ); -- HE Grenade
+	end
+	if Autobuy_Smoke:GetValue() then
+		client.Command( "buy smokegrenade", true ); -- Smoke
+	end
+	if Autobuy_Molotov:GetValue() then
+		client.Command( "buy molotov", true ); -- Molotov
+	end
+	if Autobuy_Flashbang:GetValue() then
+		client.Command( "buy flashbang", true ); -- Flashbang
+	end
+	if Autobuy_Decoy:GetValue() then
+		client.Command( "buy decoy", true ); -- Decoy
+	end
+	
+	end
 end
-
-client.AllowListener( "player_spawn" )
-
-callbacks.Register( "Draw", "Local Player Money", LocalPlayerMoney )
-callbacks.Register( "FireGameEvent", "Autobuy", Autobuy )
+end)
