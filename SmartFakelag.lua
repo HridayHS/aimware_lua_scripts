@@ -1,7 +1,7 @@
 local SetValue = gui.SetValue;
 local GetValue = gui.GetValue;
 
-local Version = "6"
+local Version = "6.5"
 
 local MSC_FAKELAG_REF = gui.Reference( "MISC", "ENHANCEMENT", "Fakelag" );
 
@@ -16,14 +16,15 @@ local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakela
 
 local FAKELAG_EXTRA_TEXT = gui.Text( MSC_FAKELAG_REF, "Fakelag Extra" );
 local FAKELAG_EXTRA = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_extra_enable", "Enable", 0 );
-local FAKELAG_ON_SLOWWALK = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_slowwalk", "Disable On Slow Walk", 0 );
-local FAKELAG_ON_KNIFE = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_knife", "Disable On Knife", 0 );
-local FAKELAG_ON_TASER = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_taser", "Disable On Taser", 0 );
-local FAKELAG_ON_GRENADE = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_grenade", "Disable On Grenade", 0 );
-local FAKELAG_ON_PISTOL = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_pistol", "Disable On Pistol", 0 );
-local FAKELAG_ON_REVOLVER = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_revolver", "Disable On Revolver", 0 );
-local FAKELAG_ON_PING = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_ping", "Disable Fakelag On Ping", 0 )
-local FAKELAG_ON_PING_AMOUNT = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_ping_amount", "Amount", 120, 0, 1000 )
+local FAKELAG_ON_MULTIBOX = gui.Multibox( MSC_FAKELAG_REF, "Disable on" );
+local FAKELAG_ON_SLOWWALK = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_slowwalk", "Slow Walk", 0 );
+local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_knife", "Knife", 0 );
+local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_taser", "Taser", 0 );
+local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_grenade", "Grenade", 0 );
+local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_pistol", "Pistol", 0 );
+local FAKELAG_ON_REVOLVER = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_revolver", "Revolver", 0 );
+local FAKELAG_ON_PING = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_ping", "On Ping", 0 )
+local FAKELAG_ON_PING_AMOUNT = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_ping_amount", "On Ping Amount", 120, 0, 1000 )
 
 local Ping = 0
 local Time = 0
