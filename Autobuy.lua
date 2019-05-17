@@ -7,14 +7,17 @@ local Autobuy_PrimaryWeapon = gui.Combobox( MSC_OTHER_REF, "lua_autobuy_primaryw
 local Autobuy_SecondaryWeapon = gui.Combobox( MSC_OTHER_REF, "lua_autobuy_secondaryweapon", "Secondary Weapon", "Off", "Dual Berettas", "P250", "Five-Seven : CZ75-Auto : Tec-9", "Desert Eagle : R8 Revolver" );
 
 local Autobuy_Armor = gui.Combobox( MSC_OTHER_REF, "lua_autobuy_armor", "Armor", "Off", "Kevlar", "Kevlar + Helmet" );
-local Autobuy_Defuser = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_defuser", "Defuser", 0 );
-local Autobuy_Taser = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_taser", "Taser", 0 );
 
-local Autobuy_HEGrenade = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_hegrenade", "HE Grenade", 0 );
-local Autobuy_Smoke = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_smoke", "Smoke", 0 );
-local Autobuy_Molotov = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_molotov", "Molotov", 0 );
-local Autobuy_Flashbang = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_flashbang", "Flashbang", 0 );
-local Autobuy_Decoy = gui.Checkbox( MSC_OTHER_REF, "lua_autobuy_decoy", "Decoy", 0 );
+local Autobuy_Utilities_Multibox = gui.Multibox( MSC_OTHER_REF, "Utility" );
+local Autobuy_Defuser = gui.Checkbox( Autobuy_Utilities_Multibox, "lua_autobuy_defuser", "Defuser", 0 );
+local Autobuy_Taser = gui.Checkbox( Autobuy_Utilities_Multibox, "lua_autobuy_taser", "Taser", 0 );
+
+local Autobuy_Grenades_Multibox = gui.Multibox( MSC_OTHER_REF, "Grenades" );
+local Autobuy_HEGrenade = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_hegrenade", "HE Grenade", 0 );
+local Autobuy_Smoke = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_smoke", "Smoke", 0 );
+local Autobuy_Molotov = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_molotov", "Molotov", 0 );
+local Autobuy_Flashbang = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_flashbang", "Flashbang", 0 );
+local Autobuy_Decoy = gui.Checkbox( Autobuy_Grenades_Multibox, "lua_autobuy_decoy", "Decoy", 0 );
 
 local Money = 0
 
