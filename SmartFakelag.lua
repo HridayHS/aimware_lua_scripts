@@ -1,8 +1,6 @@
 local SetValue = gui.SetValue;
 local GetValue = gui.GetValue;
 
-local Version = "6.5"
-
 local MSC_FAKELAG_REF = gui.Reference( "MISC", "ENHANCEMENT", "Fakelag" );
 
 local FAKELAG_SMART_MODE_TEXT = gui.Text( MSC_FAKELAG_REF, "Fakelag Smart Mode" )
@@ -17,12 +15,11 @@ local FAKELAG_SMART_MODE_INAIR_FACTOR = gui.Slider( MSC_FAKELAG_REF, "lua_fakela
 local FAKELAG_EXTRA_TEXT = gui.Text( MSC_FAKELAG_REF, "Fakelag Extra" );
 local FAKELAG_EXTRA = gui.Checkbox( MSC_FAKELAG_REF, "lua_fakelag_extra_enable", "Enable", 0 );
 local FAKELAG_ON_MULTIBOX = gui.Multibox( MSC_FAKELAG_REF, "Disable on" );
-local FAKELAG_ON_SLOWWALK = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_slowwalk", "Slow Walk", 0 );
 local FAKELAG_ON_KNIFE = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_knife", "Knife", 0 );
-local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_taser", "Taser", 0 );
-local FAKELAG_ON_GRENADE = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_grenade", "Grenade", 0 );
 local FAKELAG_ON_PISTOL = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_pistol", "Pistol", 0 );
 local FAKELAG_ON_REVOLVER = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_revolver", "Revolver", 0 );
+local FAKELAG_ON_SLOWWALK = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_slowwalk", "Slow Walk", 0 );
+local FAKELAG_ON_TASER = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_taser", "Taser", 0 );
 local FAKELAG_ON_PING = gui.Checkbox( FAKELAG_ON_MULTIBOX, "lua_fakelag_ping", "On Ping", 0 )
 local FAKELAG_ON_PING_AMOUNT = gui.Slider( MSC_FAKELAG_REF, "lua_fakelag_ping_amount", "On Ping Amount", 120, 0, 1000 )
 
@@ -42,7 +39,6 @@ callbacks.Register( 'Draw',  function()
 	if ( WeaponType == 0 and WeaponID ~= 31 ) then Knife = true else Knife = false end
 	if ( WeaponType == 1 and WeaponID ~= 64 ) then Pistol = true else Pistol = false end
 	if WeaponID == 31 then Taser = true else Taser = false end
-	if WeaponType == 9 then Grenade = true else Grenade = false end
 	if WeaponID == 64 then Revolver = true else Revolver = false end
 
 end
@@ -54,7 +50,6 @@ local function FakelagExtra()
 		
 		if ( FAKELAG_ON_KNIFE:GetValue() and Knife ) or -- On Knife
 		   ( FAKELAG_ON_TASER:GetValue() and Taser ) or -- On Taser
-		   ( FAKELAG_ON_GRENADE:GetValue() and Grenade ) or -- On Grenade
 		   ( FAKELAG_ON_PISTOL:GetValue() and Pistol ) or -- On Pistol
 		   ( FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then -- On Revolver
 			SetValue( "msc_fakelag_enable", 0 );
@@ -79,7 +74,6 @@ local function FakelagOnPing()
 			if ( Ping >= FakelagOnPingAmount ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
-			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) then
 				SetValue( "msc_fakelag_enable", 0 );
@@ -104,7 +98,6 @@ local function FakelagOnSlowWalk()
 			if ( SlowWalkFakelagOff ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
-			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) then
@@ -167,7 +160,6 @@ local function FakelagSmartMode()
 			if ( FAKELAG_STANDING == 0 ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
-			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
@@ -187,7 +179,6 @@ local function FakelagSmartMode()
 			if ( FAKELAG_MOVING == 0 ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
-			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
@@ -207,7 +198,6 @@ local function FakelagSmartMode()
 			if ( FAKELAG_INAIR == 0 ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_KNIFE:GetValue() and Knife ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_TASER:GetValue() and Taser ) or
-			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_GRENADE:GetValue() and Grenade ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PISTOL:GetValue() and Pistol ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_REVOLVER:GetValue() and Revolver ) or
 			   ( FAKELAG_EXTRA:GetValue() and FAKELAG_ON_PING:GetValue() and Ping >= FakelagOnPingAmount ) or
