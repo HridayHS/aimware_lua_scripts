@@ -1,23 +1,18 @@
+local MENU = gui.Reference( "MENU" );
 local MSC_GENERAL_MAIN_REF = gui.Reference( "MISC", "GENERAL", "Main" );
 
 local MMServerPicker_Text = gui.Text( MSC_GENERAL_MAIN_REF, "Matchmaking Server Picker" );
 local MMServerPicker_Editbox = gui.Editbox( MSC_GENERAL_MAIN_REF, "lua_matchmaking_picker", "" );
 
-local function MMServerPIcker()
+callbacks.Register( 'Draw', function()
 
-	if gui.GetValue( "msc_active" ) ~= false then
-
-		if MMServerPicker_Editbox:GetValue() == "" then
-			client.Command( "sdr ClientForceRelayCluster " .. "\"\"", true );
-		elseif MMServerPicker_Editbox:GetValue() ~= "" then
-			client.Command( "sdr ClientForceRelayCluster " .. MMServerPicker_Editbox:GetValue(), true );
-		end
-
+	if MMServerPicker_Editbox:GetValue() == "" then
+		client.Command( "sdr SDRClient_ForceRelayCluster " .. "\"\"", true );
+	elseif MMServerPicker_Editbox:GetValue() ~= "" then
+		client.Command( "sdr SDRClient_ForceRelayCluster " .. MMServerPicker_Editbox:GetValue(), true );
 	end
 
-end
-
-callbacks.Register( "Draw", MMServerPIcker )
+end)
 
 -- Matchmaking Server List
 
@@ -91,22 +86,14 @@ local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica
 local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica, "Sao Paulo 2 (SA East) -> ggru" );
 local MMServerList_SouthAmerica_ServerList = gui.Text( MMServerList_SouthAmerica, "Santiago (SA South-West) -> scl" );
 
-local WindowToggle = 1;
-
 local function MMServerList()
-
-	local MenuKey = gui.GetValue( "msc_menutoggle" );
-
-	if input.IsButtonPressed( MenuKey ) then
-		WindowToggle = WindowToggle == 0 and 1 or 0
-	end
-	
-	if MM_ServerList_WindowCheckbox:GetValue() then
-		MMServerList_WND:SetActive(WindowToggle);
-	else
-		MMServerList_WND:SetActive(0)
-	end
+    
+    if MM_ServerList_WindowCheckbox:GetValue() and MENU:IsActive() then
+        MMServerList_WND:SetActive(1)
+    else
+        MMServerList_WND:SetActive(0)
+    end
 
 end
 
-callbacks.Register( "Draw", MMServerList )
+callbacks.Register( 'Draw', MMServerList )
