@@ -1,28 +1,19 @@
-local MSC_EXTRA_REF = gui.Reference( "MISC", "GENERAL", "Extra" );
+local Ref_VisualExtra = gui.Reference('Visuals', 'Other', 'Extra')
+local LeftHandKnife = gui.Checkbox(Ref_VisualExtra, 'lefthandknife', 'Left Hand Knife', 0)
 
-local LEFT_HAND_KNIFE = gui.Checkbox( MSC_EXTRA_REF, "lua_lefthand_knife", "Left Hand Knife", 0 );
-
-local function LeftHandKnife()
-
-	if LEFT_HAND_KNIFE:GetValue() then
-
-		if entities.GetLocalPlayer() == nil then
-			return
-		end
-
-		local LocalPlayerEntity = entities.GetLocalPlayer();
-
-		local WeaponID = LocalPlayerEntity:GetWeaponID();
-		local WeaponType = LocalPlayerEntity:GetWeaponType();
-
-		if ( WeaponType == 0 and WeaponID ~= 31 ) then
-			client.Command( "cl_righthand 0", true );
-		else
-			client.Command( "cl_righthand 1", true );
-		end
-
+callbacks.Register('Draw', function()
+	if not LeftHandKnife:GetValue() then
+		return
 	end
 
-end
+	local LocalPlayer = entities.GetLocalPlayer()
 
-callbacks.Register( "Draw", "Left Hand Knife", LeftHandKnife )
+	local WeaponID = LocalPlayer:GetWeaponID()
+	local WeaponType = LocalPlayer:GetWeaponType()
+
+	if WeaponType == 0 and WeaponID ~= 31 then
+		client.Command('cl_righthand 0', true)
+	else
+		client.Command('cl_righthand 1', true)
+	end
+end)
