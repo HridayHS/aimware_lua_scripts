@@ -2,7 +2,7 @@ local Ref_VisualExtra = gui.Reference('Visuals', 'Other', 'Extra')
 local LeftHandKnife = gui.Checkbox(Ref_VisualExtra, 'lefthandknife', 'Left Hand Knife', 0)
 
 callbacks.Register('Draw', function()
-	if not LeftHandKnife:GetValue() then
+	if not gui.GetValue('esp.master') or not LeftHandKnife:GetValue() then
 		return
 	end
 
