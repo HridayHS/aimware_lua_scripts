@@ -1,37 +1,24 @@
-local SetValue = gui.SetValue;
+--[[
+	Checkbox in Misc -> Enhancement -> Fakelag
+]]
 
-local MSC_PART_2_REF = gui.Reference( "MISC", "Part 2" );
+local FakelagOnKnife = gui.Checkbox(gui.Reference('Misc', 'Enhancement', 'Fakelag'), 'onknife', 'Disable Fakelag On Knife', 0)
 
-local FAKELAG_ON_KNIFE = gui.Checkbox( MSC_PART_2_REF, "lua_fakelagonknife", "Disable Fakelag On Knife", 0 );
-
-local function FakelagOnKnife( Event )
-
-	if FAKELAG_ON_KNIFE:GetValue() then
-
-		if ( Event:GetName() ~= "item_equip" ) then
-			return;
-		end
-
-		local ME = client.GetLocalPlayerIndex();
-		local INT_UID = Event:GetInt( "userid" );
-		local PlayerIndex = client.GetPlayerIndexByUserID( INT_UID );
-		local WepType = Event:GetInt( "weptype" );
-		local Item = Event:GetString( "item" );
-	
-		if ( ME == PlayerIndex ) then
-
-			if ( WepType == 0 ) then
-				SetValue( "msc_fakelag_enable", false );
-			else
-				SetValue( "msc_fakelag_enable", true );
-			end
-
-		end
-
+client.AllowListener('item_equip')
+callbacks.Register('FireGameEvent', function(Event)
+	if not gui.GetValue('misc.master') or not FakelagOnKnife:GetValue() or Event:GetName() ~= 'item_equip' then
+		return
 	end
 
-end
+	local LocalPlayerIndex = client.GetLocalPlayerIndex()
+	local PlayerIndex = client.GetPlayerIndexByUserID( Event:GetInt('userid') )
+	local WeaponType = Event:GetInt('weptype')
 
-client.AllowListener( "item_equip" );
-
-callbacks.Register( "FireGameEvent", "Disable Fakelag On Knife", FakelagOnKnife );
+	if LocalPlayerIndex == PlayerIndex then
+		if WeaponType == 0 then
+			gui.SetValue('misc.fakelag.enable', 0)
+		else
+			gui.SetValue('misc.fakelag.enable', 1)
+		end	
+	end
+end)
