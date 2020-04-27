@@ -1,3 +1,55 @@
+--[[
+	Tab in Misc -> Chickens
+]]
+
+local Tab = gui.Tab(gui.Reference('Misc'), 'chickens', 'Chickens')
+local Groupbox = {
+	General = gui.Groupbox(Tab, 'General', 16, 16, 295),
+	Extra = gui.Groupbox(Tab, 'Extra', 328, 16, 295)
+}
+
+local Chicken = {
+	AntiAim = gui.Checkbox(Groupbox.General, 'antiaim', 'Anti-Aim', 0),
+	Skin = gui.Combobox(Groupbox.General, 'skin', 'Skin', 'White', 'Red'),
+	Theme = gui.Combobox(Groupbox.General, 'theme', 'Theme', 'Off', 'Party Chicken', 'Ghost Chicken', 'Festive Chicken', 'Easter Chicken', 'Jack-o-Chicken'),
+	PartyMode = gui.Checkbox(Groupbox.General, 'partymode', 'Party Mode', 0),
+	Size = gui.Slider(Groupbox.General, "size", 'Size', 1.0, 1.0, 5.0),
+	DeathSay = gui.Checkbox(Groupbox.Extra, 'deathsay', 'Death Say', 0)
+}
+
+-- Object Descriptions
+Chicken.AntiAim:SetDescription('Makes it harder to hit head.')
+Chicken.PartyMode:SetDescription('Enables sv_party_mode convar.')
+Chicken.Size:SetDescription('Change size of the chicken.')
+Chicken.DeathSay:SetDescription('Sends a chat message on chicken death.')
+
+-- Main
+callbacks.Register('Draw', function()
+	if not gui.GetValue('misc.master') then
+		return
+	end
+
+	local Chickens = entities.FindByClass('CChicken')
+
+	for i=1, #Chickens do
+		Chickens[i]:SetProp('m_nSkin', Chicken.Skin:GetValue())
+		Chickens[i]:SetProp('m_nBody', Chicken.Theme:GetValue())
+		Chickens[i]:SetProp('m_flModelScale', Chicken.Size:GetValue())
+	end
+
+	if Chicken.AntiAim:GetValue() then
+		for i=1, #Chickens do
+			Chickens[i]:SetProp('m_nSequence', -509)
+		end
+	end
+
+	if Chicken.PartyMode:GetValue() then
+		client.SetConVar('sv_party_mode', 1, true)
+	else
+		client.SetConVar('sv_party_mode', 0, true)
+	end
+end)
+
 local WeaponNames = {
 	['knife'] = 'Knife',
 	['taser'] = 'Taser',
@@ -42,59 +94,12 @@ local WeaponNames = {
 	['smokegrenade'] = 'Smoke Grenade'
 }
 
-
-local Tab = gui.Tab(gui.Reference('Misc'), 'chickens', 'Chickens')
-local Groupbox = {
-	General = gui.Groupbox(Tab, 'General', 16, 16, 295),
-	Extra = gui.Groupbox(Tab, 'Extra', 328, 16, 295)
-}
-
-local Chicken = {
-	AntiAim = gui.Checkbox(Groupbox.General, 'antiaim', 'Anti-Aim', 0),
-	Skin = gui.Combobox(Groupbox.General, 'skin', 'Skin', 'White', 'Red'),
-	Theme = gui.Combobox(Groupbox.General, 'theme', 'Theme', 'Off', 'Party Chicken', 'Ghost Chicken', 'Festive Chicken', 'Easter Chicken', 'Jack-o-Chicken'),
-	PartyMode = gui.Checkbox(Groupbox.General, 'partymode', 'Party Mode', 0),
-	Size = gui.Slider(Groupbox.General, "size", 'Size', 1.0, 1.0, 5.0),
-	DeathSay = gui.Checkbox(Groupbox.Extra, 'deathsay', 'Death Say', 0)
-}
-
--- Object Description
-Chicken.DeathSay:SetDescription('Sends a chat message on chicken death.')
-
--- Main
-callbacks.Register('Draw', function()
-	if not gui.GetValue('misc.master') then
-		return
-	end
-
-	local Chickens = entities.FindByClass('CChicken')
-
-	for i=1, #Chickens do
-		Chickens[i]:SetProp('m_nSkin', Chicken.Skin:GetValue())
-		Chickens[i]:SetProp('m_nBody', Chicken.Theme:GetValue())
-		Chickens[i]:SetProp('m_flModelScale', Chicken.Size:GetValue())
-	end
-
-	if Chicken.AntiAim:GetValue() then
-		for i=1, #Chickens do
-			Chickens[i]:SetProp('m_nSequence', -509)
-		end
-	end
-
-	if Chicken.PartyMode:GetValue() then
-		client.SetConVar('sv_party_mode', 1, true)
-	else
-		client.SetConVar('sv_party_mode', 0, true)
-	end
-end)
-
 -- Death Say
 client.AllowListener('other_death')
 callbacks.Register('FireGameEvent', function(Event)
 	if  not gui.GetValue('misc.master') or not Chicken.DeathSay:GetValue() then
 		return
 	end
-
 	if Event:GetName() == 'other_death' then
 		local Killer_INT = Event:GetInt('attacker')
 		local Killer_Name = client.GetPlayerNameByUserID(Killer_INT)
