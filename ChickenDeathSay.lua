@@ -52,7 +52,7 @@ ChickenDeathSay:SetDescription('Sends a chat message on chicken death.')
 
 client.AllowListener('other_death')
 callbacks.Register('FireGameEvent', function(Event)
-	if not ChickenDeathSay:GetValue() then
+	if not gui.GetValue('misc.master') or not ChickenDeathSay:GetValue() then
 		return
 	end
 
