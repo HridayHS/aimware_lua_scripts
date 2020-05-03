@@ -13,7 +13,9 @@ local Groupbox = {
 }
 
 local GUIObjects = {
-	Ping = {},
+	Ping = {
+		EndMatch = {}
+	},
 	Webhook = {}
 }
 
@@ -22,9 +24,18 @@ GUIObjects.MasterSwitch = gui.Checkbox(Groupbox.General, 'enable', 'Enable', 0)
 GUIObjects.MasterSwitch:SetDescription('Enable Discord Ping.') -- Set Master Switch Description
 
 -- Ping Multibox
-GUIObjects.PingMultiBox = gui.Multibox(Groupbox.General, 'Send Info')
-GUIObjects.Ping.StartMatch = gui.Checkbox(GUIObjects.PingMultiBox, 'matchstart', 'At Match Start', 0)
-GUIObjects.Ping.EndMatch = gui.Checkbox(GUIObjects.PingMultiBox, 'matchend', 'At Match End', 0)
+GUIObjects.Ping.MultiBox = gui.Multibox(Groupbox.General, 'Send Info')
+GUIObjects.Ping.StartMatch = gui.Checkbox(GUIObjects.Ping.MultiBox, 'matchstart', 'At Match Start', 1)
+GUIObjects.Ping.EndMatch.Enabled = gui.Checkbox(GUIObjects.Ping.MultiBox, 'matchend', 'At Match End', 0)
+GUIObjects.Ping.EndMatch.MultiBox = gui.Multibox(Groupbox.General, 'At Match End')
+GUIObjects.Ping.EndMatch.Send = {
+	Rank = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.rank', 'Send Rank', 1),
+	Kills = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.kills', 'Send Kills', 1),
+	Assists = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.assists', 'Send Assists', 0),
+	Deaths = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.deaths', 'Send Deaths', 1),
+	MVPs = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.mvps', 'Send MVPs', 0),
+	Score = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.score', 'Send Score', 0)
+}
 
 -- Webhook
 GUIObjects.Webhook.Window = gui.Window('misc.discordping.webhook', 'Discord Webhook', 0, 0, 840, 100)
@@ -37,6 +48,14 @@ GUIObjects.Webhook.Button:SetWidth(265) -- Set Webhook Button Width
 
 -- You can add your webhook here as well so you won't need it add it all the time.
 GUIObjects.Webhook.Text:SetValue('')
+
+-- Menu Objects Handler
+callbacks.Register('Draw', function()
+	GUIObjects.Ping.EndMatch.MultiBox:SetInvisible(not GUIObjects.Ping.EndMatch.Enabled:GetValue()) -- Hide End Match Multibox if it's disabled.
+	if not References.Menu:IsActive() then -- Hide webhook window if cheat menu is hidden
+		GUIObjects.Webhook.Window:SetActive(false)
+	end
+end)
 
 -- Main
 local MapNames = {
@@ -242,13 +261,27 @@ Get.MatchEndInfo = function(bool)
 		if IsPlayerBot then
 			String = String .. [[\n\t● ]] .. PlayerName .. ' (Bot)'
 		else
-			if Get.GameMode() == 'Competitive' or Get.GameMode() == 'Wingman' or Get.GameMode() == 'Danger Zone' then
+			if (GUIObjects.Ping.EndMatch.Send.Rank:GetValue() and (Get.GameMode() == 'Competitive' or Get.GameMode() == 'Wingman' or Get.GameMode() == 'Danger Zone')) then
 				String = String .. [[\n\t● ]] .. '[' .. PlayerName .. '](' .. '<https://steamcommunity.com/profiles/[U:1:' .. PlayerSteamID .. ']/>' .. ')' .. ' | ' .. PlayerRank
 			else
 				String = String .. [[\n\t● ]] .. '[' .. PlayerName .. '](' .. '<https://steamcommunity.com/profiles/[U:1:' .. PlayerSteamID .. ']/>' .. ')'
 			end
 		end
-		String = String .. ' | ' .. PlayerKills .. ' Kills | ' .. PlayerAssists .. ' Assists | ' .. PlayerDeaths .. ' Deaths | ' .. PlayerMVPs .. ' MVPs | ' .. PlayerScore .. ' Score'
+		if GUIObjects.Ping.EndMatch.Send.Kills:GetValue() then
+			String = String .. ' | ' .. PlayerKills .. ' Kills'
+		end
+		if GUIObjects.Ping.EndMatch.Send.Assists:GetValue() then
+			String = String .. ' | ' .. PlayerAssists .. ' Assists'
+		end
+		if GUIObjects.Ping.EndMatch.Send.Deaths:GetValue() then
+			String = String .. ' | ' .. PlayerDeaths .. ' Deaths'
+		end
+		if GUIObjects.Ping.EndMatch.Send.MVPs:GetValue() then
+			String = String .. ' | ' .. PlayerMVPs .. ' MVPs'
+		end
+		if GUIObjects.Ping.EndMatch.Send.Score:GetValue() then
+			String = String .. ' | ' .. PlayerScore .. ' Score'
+		end
 	end
 
 	if (#Players == 0) then
@@ -257,26 +290,15 @@ Get.MatchEndInfo = function(bool)
    	return String .. [[\n\n]]
 end
 
-local function SendAsyncWebRequest(Content)
-	panorama.RunScript([[
-		$.AsyncWebRequest(']] .. GUIObjects.Webhook.Text:GetValue() .. [[', {
-			type: 'POST',
-			data: {
-				content: ']] .. Content .. [['
-			}
-		});
-	]])
-end
-
 callbacks.Register('FireGameEvent', function(Event)
-	if not GUIObjects.MasterSwitch:GetValue() or GUIObjects.Webhook.Text:GetValue() == '' then
+	if not gui.GetValue('misc.master') or not GUIObjects.MasterSwitch:GetValue() or GUIObjects.Webhook.Text:GetValue() == '' then
 		return
 	end
 
 	-- At Match Start
 	if GUIObjects.Ping.StartMatch:GetValue() and Event:GetName() == 'round_announce_match_start' then
 		local MyTeam = Get.Team(client.GetLocalPlayerIndex())
-		if MyTeam == 0 or MyTeam == 1 then
+		if not MyTeam == 2 and not MyTeam == 3 then
 			print('DiscordPing: Send Info -> At Match Start: Team not found')
 			return
 		end
@@ -286,13 +308,21 @@ callbacks.Register('FireGameEvent', function(Event)
 		Content = Content .. '**' .. Get.GameMode() .. ' | ' .. (MapNames[engine.GetMapName()] or engine.GetMapName()) .. '**'.. [[\n\n]]
 		Content = Content .. '**Your Team**: ' .. Get.TeamInitials(false) .. Get.MatchStartInfo(true)
 		Content = Content .. '**Enemy Team**: ' .. Get.TeamInitials(true) .. Get.MatchStartInfo(false)
-		SendAsyncWebRequest(Content)
+
+		panorama.RunScript([[
+			$.AsyncWebRequest(']] .. GUIObjects.Webhook.Text:GetValue() .. [[', {
+				type: 'POST',
+				data: {
+					content: ']] .. Content .. [['
+				}
+			});
+		]])
 	end
 
 	-- At Match End
-	if GUIObjects.Ping.EndMatch:GetValue() and Event:GetName() == 'cs_win_panel_match' then
+	if GUIObjects.Ping.EndMatch.Enabled:GetValue() and Event:GetName() == 'cs_win_panel_match' then
 		local MyTeam = Get.Team(client.GetLocalPlayerIndex())
-		if MyTeam == 0 or MyTeam == 1 then
+		if not MyTeam == 2 and not MyTeam == 3 then
 			print('DiscordPing: Send Info -> At Match End: Team not found')
 			return
 		end
@@ -302,7 +332,26 @@ callbacks.Register('FireGameEvent', function(Event)
 		Content = Content .. '**' .. Get.GameMode() .. ' | ' .. (MapNames[engine.GetMapName()] or engine.GetMapName()) .. '**'.. [[\n\n]]
 		Content = Content .. '**Your Team**: ' .. Get.TeamInitials(false) .. Get.MatchEndInfo(true)
 		Content = Content .. '**Enemy Team**: ' .. Get.TeamInitials(true) .. Get.MatchEndInfo(false)
-		SendAsyncWebRequest(Content)
+
+		panorama.RunScript([[
+			function GetGameScore() {
+				const LocalPlayerTeamNumber = ']] .. tostring( Get.Team(client.GetLocalPlayerIndex()) ) .. [[';
+				const GameScore = () => {
+					CTScore = GameStateAPI.GetScoreDataJSO()['teamdata']['CT']['score'];
+					TScore = GameStateAPI.GetScoreDataJSO()['teamdata']['TERRORIST']['score'];
+					return LocalPlayerTeamNumber == 2 ? `**Score**: T: ${TScore} | CT: ${CTScore}` : `**Score**: CT: ${CTScore} | T: ${TScore}`;
+				};
+				const GameMode = GameStateAPI.GetGameModeInternalName(false);
+				return (GameMode != 'gungameprogressive' && GameMode != 'deathmatch' && GameMode != 'survival') ? GameScore() : null;
+			}
+
+			$.AsyncWebRequest(']] .. GUIObjects.Webhook.Text:GetValue() .. [[', {
+				type: 'POST',
+				data: {
+					content: GetGameScore() ? ']] .. Content .. [[' + GetGameScore() : ']] .. Content .. [['
+				}
+			});
+		]])
 	end
 end)
 
