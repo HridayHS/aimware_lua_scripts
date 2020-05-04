@@ -46,7 +46,7 @@ GUIObjects.Webhook.Text = gui.Editbox(GUIObjects.Webhook.Window, 'text', '')
 GUIObjects.Webhook.Window:SetActive(false) -- Disable Window By Default
 GUIObjects.Webhook.Button:SetWidth(265) -- Set Webhook Button Width
 
--- You can add your webhook here as well so you won't need it add it all the time.
+-- You can add your webhook here as well so you won't need to add it all the time.
 GUIObjects.Webhook.Text:SetValue('')
 
 -- Menu Objects Handler
