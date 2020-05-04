@@ -38,7 +38,7 @@ GUIObjects.Ping.EndMatch.Send = {
 }
 
 -- Webhook
-GUIObjects.Webhook.Window = gui.Window('misc.discordping.webhook', 'Discord Webhook', 0, 0, 840, 100)
+GUIObjects.Webhook.Window = gui.Window('misc.discordping.webhook', 'Discord Webhook', 0, 0, 860, 100)
 GUIObjects.Webhook.Button = gui.Button(Groupbox.General, 'Webhook', function()
 	GUIObjects.Webhook.Window:SetActive(not GUIObjects.Webhook.Window:IsActive())
 end)
