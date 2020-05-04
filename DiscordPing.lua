@@ -298,7 +298,7 @@ callbacks.Register('FireGameEvent', function(Event)
 	-- At Match Start
 	if GUIObjects.Ping.StartMatch:GetValue() and Event:GetName() == 'round_announce_match_start' then
 		local MyTeam = Get.Team(client.GetLocalPlayerIndex())
-		if not MyTeam == 2 and not MyTeam == 3 then
+		if MyTeam ~= 2 and MyTeam ~= 3 then
 			print('DiscordPing: Send Info -> At Match Start: Team not found')
 			return
 		end
@@ -322,7 +322,7 @@ callbacks.Register('FireGameEvent', function(Event)
 	-- At Match End
 	if GUIObjects.Ping.EndMatch.Enabled:GetValue() and Event:GetName() == 'cs_win_panel_match' then
 		local MyTeam = Get.Team(client.GetLocalPlayerIndex())
-		if not MyTeam == 2 and not MyTeam == 3 then
+		if MyTeam ~= 2 and MyTeam ~= 3 then
 			print('DiscordPing: Send Info -> At Match End: Team not found')
 			return
 		end
