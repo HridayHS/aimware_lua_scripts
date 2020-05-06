@@ -23,7 +23,7 @@ local GUIObjects = {
 GUIObjects.MasterSwitch = gui.Checkbox(Groupbox.General, 'enable', 'Enable', 0)
 GUIObjects.MasterSwitch:SetDescription('Enable Discord Ping.') -- Set Master Switch Description
 
--- Ping Multibox
+-- Ping Options
 GUIObjects.Ping.MultiBox = gui.Multibox(Groupbox.General, 'Send Info')
 GUIObjects.Ping.StartMatch = gui.Checkbox(GUIObjects.Ping.MultiBox, 'matchstart', 'At Match Start', 1)
 GUIObjects.Ping.EndMatch.Enabled = gui.Checkbox(GUIObjects.Ping.MultiBox, 'matchend', 'At Match End', 0)
@@ -36,6 +36,7 @@ GUIObjects.Ping.EndMatch.Send = {
 	MVPs = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.mvps', 'Send MVPs', 0),
 	Score = gui.Checkbox(GUIObjects.Ping.EndMatch.MultiBox, 'matchend.score', 'Send Score', 0)
 }
+GUIObjects.Ping.RankShortName = gui.Checkbox(Groupbox.General, 'rankshortname', 'Use Short Names For Rank', 1)
 
 -- Webhook
 GUIObjects.Webhook.Window = gui.Window('misc.discordping.webhook', 'Discord Webhook', 0, 0, 860, 100)
@@ -96,49 +97,73 @@ local MapNames = {
 
 local Ranks = {
     DangerZone = {
-        [1] = 'Lab Rat I',
-        [2] = 'Lab Rat II',
-        [3] = 'Sprinting Hare I',
-        [4] = 'Sprinting Hare II',
-        [5] = 'Wild Scout I',
-        [6] = 'Wild Scout II',
-        [7] = 'Wild Scout Elite',
-        [8] = 'Hunter Fox I',
-        [9] = 'Hunter Fox II',
-        [10] = 'Hunter Fox III',
-        [11] = 'Hunter Fox Elite',
-        [12] = 'Timber Wolf',
-        [13] = 'Ember Wolf',
-        [14] = 'Wildfire Wolf',
-        [15] = 'The Howling Alpha'
+        'Lab Rat I',
+        'Lab Rat II',
+        'Sprinting Hare I',
+        'Sprinting Hare II',
+        'Wild Scout I',
+        'Wild Scout II',
+        'Wild Scout Elite',
+        'Hunter Fox I',
+        'Hunter Fox II',
+        'Hunter Fox III',
+        'Hunter Fox Elite',
+        'Timber Wolf',
+        'Ember Wolf',
+        'Wildfire Wolf',
+        'The Howling Alpha'
     },
     Matchmaking = {
-        [1] = 'Silver I',
-        [2] = 'Silver II',
-        [3] = 'Silver III',
-        [4] = 'Silver IV',
-        [5] = 'Silver Elite',
-        [6] = 'Silver Elite Master',
-        [7] = 'Gold Nova I',
-        [8] = 'Gold Nova II',
-        [9] = 'Gold Nova III',
-        [10] = 'Gold Nova Master',
-        [11] = 'Master Guardian I',
-        [12] = 'Master Guardian II',
-        [13] = 'Master Guardian Elite',
-        [14] = 'Distinguished Master Guardian',
-        [15] = 'Legendary Eagle',
-        [16] = 'Legendary Eagle Master',
-        [17] = 'Supreme Master First Class',
-        [18] = 'Global Elite'
-    }
+		Names = {
+			'Silver I',
+			'Silver II',
+			'Silver III',
+			'Silver IV',
+			'Silver Elite',
+			'Silver Elite Master',
+			'Gold Nova I',
+			'Gold Nova II',
+			'Gold Nova III',
+			'Gold Nova Master',
+			'Master Guardian I',
+			'Master Guardian II',
+			'Master Guardian Elite',
+			'Distinguished Master Guardian',
+			'Legendary Eagle',
+			'Legendary Eagle Master',
+			'Supreme Master First Class',
+			'Global Elite'
+		},
+		ShortNames = {
+			'SI',
+			'S2',
+			'S3',
+			'S4',
+			'SE',
+			'SEM',
+			'GN1',
+			'GN2',
+			'GN3',
+			'GNM',
+			'MG1',
+			'MG2',
+			'MGE',
+			'DMG',
+			'LE',
+			'LEM',
+			'SMFC',
+			'GE'
+		}
+	}
 }
 
 local Get = {}
 
 Get.CompetitiveRank = function(PlayerIndex)
 	local PlayerRank = entities.GetPlayerResources():GetPropInt('m_iCompetitiveRanking', PlayerIndex)
-	return (string.find(engine.GetMapName(), 'dz') and (Ranks.DangerZone[PlayerRank] or 'Unranked') or (Ranks.Matchmaking[PlayerRank] or 'Unranked'))
+	return (string.find(engine.GetMapName(), 'dz') and (Ranks.DangerZone[PlayerRank] or 'Unranked'))
+		or (GUIObjects.Ping.RankShortName:GetValue() and (Ranks.Matchmaking.ShortNames[PlayerRank] or 'Unranked'))
+		or (Ranks.Matchmaking.Names[PlayerRank] or 'Unranked')
 end
 
 Get.GameMode = function()
